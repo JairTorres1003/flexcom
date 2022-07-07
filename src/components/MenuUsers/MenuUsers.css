@@ -1,0 +1,152 @@
+.MenuUsers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 280px;
+  height: 100%;
+  color: #fff;
+  padding: 10px;
+  margin: 0;
+}
+
+.MenuUsers__title {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #fff;
+  user-select: none;
+  -ms-user-select: none;
+  margin-bottom: 10px;
+}
+
+.MenuUsers__users {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  gap: 5px;
+}
+
+.MenuUsers__users::-webkit-scrollbar {
+  width: 5px;
+  background: rgb(37, 46, 63);
+}
+
+.MenuUsers__users::-webkit-scrollbar-thumb {
+  background: rgb(98, 99, 109);
+  border-radius: 5px;
+}
+
+.MenuUsers__users::-webkit-scrollbar-thumb:hover {
+  background: rgb(125, 126, 136);
+}
+
+.MenuUsers__users__online-list,
+.MenuUsers__users__online-user,
+.MenuUsers__users__offline-list,
+.MenuUsers__users__offline-user {
+  list-style: none;
+}
+
+.MenuUsers__users__online,
+.MenuUsers__users__offline {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.MenuUsers__users__online__btn,
+.MenuUsers__users__offline__btn,
+.MenuUsers__users__online-user,
+.MenuUsers__users__offline-user {
+  background-color: transparent;
+  border: none;
+  color: rgb(220, 220, 220);
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3px 5px;
+  cursor: pointer;
+  width: 100%;
+  height: 21px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.MenuUsers__users__online-user,
+.MenuUsers__users__offline-user {
+  gap: 3px;
+}
+
+.MenuUsers__users__online-user p,
+.MenuUsers__users__offline-user p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.MenuUsers__users__online__btn:hover,
+.MenuUsers__users__offline__btn:hover,
+.MenuUsers__users__online-user:hover,
+.MenuUsers__users__offline-user:hover {
+  background-color: rgba(81, 92, 158, 0.1);
+  color: rgb(255, 255, 255);
+}
+
+.MenuUsers__users__online__btn::after,
+.MenuUsers__users__offline__btn::after,
+.MenuUsers__users__online-user::after,
+.MenuUsers__users__offline-user::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+.MenuUsers__users__online-list,
+.MenuUsers__users__offline-list {
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 3px;
+  transition: .2s ease-in-out;
+}
+
+.MenuUsers__users__online__btn__icon {
+  font-size: 13px;
+  color: #fff;
+}
+
+.MenuUsers__users__online-user__icon {
+  font-size: 7px;
+  margin: 0 7px;
+  color: #349b96;
+}
+
+.MenuUsers__users__offline-user__icon {
+  font-size: 7px;
+  margin: 0 7px;
+  color: #bbbbbb;
+}

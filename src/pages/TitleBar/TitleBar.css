@@ -1,0 +1,78 @@
+.TitleBar {
+  width: 100%;
+  height: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  background: rgb(20, 30, 48);
+  background-color: rgb(20, 30, 48);
+  border: none;
+  border-bottom: 1px solid #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.TitleBar__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin-left: 7px;
+}
+
+.TitleBar__title__icon {
+  color: #fff;
+  font-size: 0.9em;
+  -webkit-app-region: drag;
+}
+
+.TitleBar__title__text {
+  font-size: .75em;
+  font-weight: normal;
+  padding: 0 7px;
+  width: 100%;
+  line-height: 30px;
+  -webkit-app-region: drag;
+}
+
+.TitleBar__buttons {
+  width: 135px;
+  height: 35px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: auto;
+}
+
+.TitleBar__buttons__button {
+  width: 45px;
+  height: 30px;
+  border: none;
+  outline: none;
+  background: transparent;
+  background-color: transparent;
+  cursor: default;
+}
+
+.TitleBar__buttons__button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.TitleBar__buttons__button#close-button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.iconBtn {
+  color: #fff;
+  font-size: 1.1em;
+}

@@ -1,0 +1,122 @@
+.NavBar {
+  width: 100%;
+  height: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  background: rgb(20, 30, 48);
+  background-color: rgb(20, 30, 48);
+  border: none;
+  border-bottom: 1px solid #fff;
+  overflow: hidden;
+}
+
+.NavBar__title {
+  height: 30px;
+  width: max-content;
+  color: #fff;
+  line-height: 30px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  padding-right: 20px;
+}
+
+.NavBar__title label {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+  -ms-user-select: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.NavBar__finder {
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  min-width: 300px;
+  width: auto;
+  height: 22px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: auto 1 0;
+}
+
+.NavBar__finder__input {
+  background-color: transparent;
+  border: none;
+  color: #141E30;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+}
+
+.NavBar__finder__input:focus {
+  background-color: rgb(217, 217, 217);
+}
+
+.NavBar__finder__input:focus~.NavBar__finder__button {
+  background-color: rgb(217, 217, 217);
+  color: #141E30;
+}
+
+.NavBar__finder__button {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  color: rgba(20, 30, 48, 0.75);
+  height: 100%;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.NavBar__finder>.NavBar__finder__button:hover,
+.NavBar__finder>.NavBar__finder__button:focus {
+  color: #141E30;
+  background-color: rgb(161, 161, 161);
+}
+
+.NavBar__usersChannel {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+  margin-right: 5px;
+}
+
+.NavBar__usersChannel__button {
+  border: none;
+  color: rgb(168, 168, 168);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.NavBar__usersChannel__button:hover,
+.NavBar__usersChannel__button:focus {
+  color: #fff;
+}
+
+.NavBar__usersChannel__button>.Icon_usersChannel {
+  width: 22px;
+  height: 22px;
+}

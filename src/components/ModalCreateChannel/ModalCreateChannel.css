@@ -1,0 +1,248 @@
+.ModalCreateChannel {
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.ModalCreateChannel.is-open {
+  display: flex;
+}
+
+.ModalCreateChannel__modal {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  background: rgb(44, 83, 100);
+  background: linear-gradient(to bottom, rgb(15, 32, 39) 0%, rgb(32, 58, 67) 50%, rgb(44, 83, 100) 100%);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.5);
+}
+
+.ModalCreateChannel__modal__title {
+  font-size: 26px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  width: 100%;
+  text-align: center;
+  user-select: none;
+  -ms-user-select: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.ModalCreateChannel__modal__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+}
+
+.ModalCreateChannel__modal__content__name {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.ModalCreateChannel__modal__content__name__label,
+.ModalCreateChannel__modal__content__description__label,
+.ModalCreateChannel__modal__content__visibility__label,
+.ModalCreateChannel__modal__content__invite__label {
+  font-size: 13px;
+  color: #fff;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+  -ms-user-select: none;
+}
+
+.ModalCreateChannel__modal__content__name__input {
+  width: 100%;
+  height: 23px;
+  border: 1px solid #141E30;
+  border-radius: 5px;
+  padding: 3px 5px;
+  font-size: 13px;
+  line-height: 13px;
+  color: #141E30;
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+  background-color: rgb(225, 225, 225);
+}
+
+.ModalCreateChannel__modal__content__name__input.--required {
+  border: 1px solid #ff0000;
+}
+
+.ModalCreateChannel__modal__content__name__input:focus {
+  background-color: rgb(255, 255, 255);
+}
+
+.ModalCreateChannel__modal__content__description,
+.ModalCreateChannel__modal__content__invite {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.ModalCreateChannel__modal__content__description__textarea,
+.ModalCreateChannel__modal__content__invite__textarea {
+  width: 100%;
+  height: 43px;
+  border: 1px solid #141E30;
+  border-radius: 5px;
+  padding: 3px 5px;
+  font-size: 13px;
+  line-height: 13px;
+  color: #141E30;
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+  background-color: rgb(225, 225, 225);
+  resize: none;
+}
+
+.ModalCreateChannel__modal__content__description__textarea::-webkit-scrollbar,
+.ModalCreateChannel__modal__content__invite__textarea::-webkit-scrollbar {
+  width: 5px;
+  background: transparent;
+  margin-right: 10px;
+}
+
+.ModalCreateChannel__modal__content__description__textarea::-webkit-scrollbar-thumb,
+.ModalCreateChannel__modal__content__invite__textarea::-webkit-scrollbar-thumb {
+  background: #22324e;
+  border-radius: 5px;
+  cursor: default;
+}
+
+.ModalCreateChannel__modal__content__description__textarea::-webkit-scrollbar-thumb:hover,
+.ModalCreateChannel__modal__content__invite__textarea::-webkit-scrollbar-thumb:hover {
+  background: #31456b;
+}
+
+.ModalCreateChannel__modal__content__description__textarea:focus,
+.ModalCreateChannel__modal__content__invite__textarea:focus {
+  background-color: rgb(255, 255, 255);
+}
+
+.ModalCreateChannel__modal__content__visibility {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ModalCreateChannel__modal__content__visibility__input {
+  border: 1px solid #fff;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 40px;
+  height: 20px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ModalCreateChannel__modal__content__visibility__input>input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ModalCreateChannel__modal__content__visibility__input>input::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 18px;
+  border-radius: 10px;
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.ModalCreateChannel__modal__content__visibility__input span.button-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  background-color: rgb(70, 98, 114);
+  border: 1px solid rgb(148, 148, 148);
+  transition: all 0.2s ease-in-out;
+}
+
+.ModalCreateChannel__modal__content__visibility__input>input[type=checkbox]:checked+span.button-checkbox {
+  background-color: rgb(3, 112, 207);
+  transform: translateX(calc(100% + 1px));
+}
+
+.ModalCreateChannel__modal__content__visibility__message {
+  width: 100%;
+  height: 17px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 15px;
+  cursor: default;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.ModalCreateChannel__modal__content__buttons {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.ModalCreateChannel__modal__content__buttons__button {
+  width: 120px;
+  height: 40px;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  background-color: #141E30;
+  color: #fff;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.ModalCreateChannel__modal__content__buttons__button:hover {
+  background-color: #22324e;
+}

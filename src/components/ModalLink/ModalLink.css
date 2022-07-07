@@ -1,0 +1,143 @@
+.ModalLink {
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.ModalLink.is-open {
+  display: flex;
+}
+
+.ModalLink__modal {
+  position: relative;
+  width: 450px;
+  height: 250px;
+  background: rgb(44, 83, 100);
+  background: linear-gradient(to bottom, rgb(15, 32, 39) 0%, rgb(32, 58, 67) 50%, rgb(44, 83, 100) 100%);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.5);
+}
+
+.ModalLink__modal__title {
+  font-size: 26px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  width: 100%;
+  text-align: center;
+  user-select: none;
+  -ms-user-select: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.ModalLink__modal__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+}
+
+.ModalLink__modal__content__text,
+.ModalLink__modal__content__link {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.ModalLink__modal__content__text__label,
+.ModalLink__modal__content__link__label {
+  font-size: 13px;
+  color: #fff;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+  -ms-user-select: none;
+}
+
+.ModalLink__modal__content__text__input,
+.ModalLink__modal__content__link__input {
+  width: 100%;
+  height: 23px;
+  border: 1px solid #141E30;
+  border-radius: 5px;
+  padding: 3px 5px;
+  font-size: 13px;
+  line-height: 13px;
+  color: #141E30;
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+  background-color: rgb(225, 225, 225);
+}
+
+.ModalLink__modal__content__text__input.--required,
+.ModalLink__modal__content__link__input.--required {
+  border: 1px solid #ff0000;
+}
+
+.ModalLink__modal__content__text__input,
+.ModalLink__modal__content__link__input:focus {
+  background-color: rgb(255, 255, 255);
+}
+
+.ModalLink__modal__content__buttons {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.ModalLink__modal__content__buttons__button {
+  width: 120px;
+  height: 40px;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  background-color: #141E30;
+  color: #fff;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.ModalLink__modal__content__buttons__button:hover {
+  background-color: #22324e;
+}
+
+#scnStart {
+  color: transparent;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+}

@@ -1,0 +1,240 @@
+.Menu {
+  width: max-content;
+  height: 100%;
+  background: rgb(20, 30, 48);
+  background-color: rgb(20, 30, 48);
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+}
+
+.Menu__Buttons {
+  width: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border: none;
+  /* border-bottom: 1px solid #fff; */
+  z-index: 50;
+}
+
+.Menu__Buttons__options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.Menu__Buttons__options__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+}
+
+.Menu__Buttons__options__list__item {
+  list-style: none;
+}
+
+.Menu__Buttons__account {
+  width: 100%;
+  height: 35px;
+  position: relative;
+}
+
+.Menu__Buttons__account__button,
+.Menu__Buttons__options__list__item__button {
+  width: 40px;
+  height: 35px;
+  background-color: transparent;
+  color: rgba(176, 176, 176, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu_iconBtn {
+  font-size: 1.5em;
+}
+
+.Menu__Buttons__account__button:hover,
+.Menu__Buttons__options__list__item__button:hover {
+  color: rgb(255, 255, 255);
+}
+
+.Menu__Buttons__account__button::after,
+.Menu__Buttons__options__list__item__button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.Menu__Buttons__options__list__item__button._active {
+  color: rgb(255, 255, 255);
+}
+
+.Menu__Buttons__options__list__item__button._active::after {
+  border-left: 1px solid rgb(255, 255, 255);
+  width: calc(100% - 1px);
+}
+
+.Menu__Buttons__account>.Menu__Buttons__account__panel {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% + 1px);
+  width: max-content;
+  max-width: 200px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+  background-color: rgb(86, 86, 86);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  opacity: 1;
+}
+
+.Menu__Buttons__account>.Menu__Buttons__account__panel._view {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.Menu__Buttons__account__panel>.Menu__Buttons__account__panel__button {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 5px 15px;
+  background-color: #141E30;
+  color: #fff;
+  line-height: 14px;
+  height: 22px;
+  width: 100%;
+  font-size: 12px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.Menu__Buttons__account__panel>.Menu__Buttons__account__panel__button:hover {
+  background-color: #1F2A3F;
+}
+
+.Menu__Content {
+  width: 0px;
+  height: 100%;
+  border: none;
+  transition: .2s ease-in-out;
+  /* border-bottom: 1px solid #fff; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 48;
+  background-color: rgb(20, 30, 48);
+}
+
+._MenuView {
+  border-left: 1px solid #fff;
+  width: 280px;
+}
+
+.Menu__Content__close {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 25px;
+  height: 20px;
+  background-color: transparent;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 47;
+}
+
+.Menu__Content__close:hover {
+  background-color: rgba(81, 92, 158, 0.15);
+}
+
+
+.Menu__Buttons__options__list__item__button:hover>span.span_button_title,
+.Menu__Buttons__account__button:hover>span.span_button_title {
+  display: block;
+}
+
+span.span_button_title {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 5px);
+  font-family: Arial, Helvetica, sans-serif;
+  transform: translateY(-50%);
+  width: max-content;
+  color: #fff;
+  font-size: 11px;
+  background-color: rgb(1, 2, 21);
+  padding: 3px 5px;
+  border: 1px solid rgb(53, 53, 53);
+  border-radius: 3px;
+  box-shadow: 0 0 7px 1px rgb(0 0 0 / 50%);
+  transition: .2s ease-in-out;
+  display: none;
+}
+
+.Menu__Buttons__options__list__item__button>span.span_button_title:hover,
+.Menu__Buttons__account__button>span.span_button_title:hover {
+  display: none;
+}
+
+span.span_button_title::after {
+  content: "";
+  position: absolute;
+  height: 6px;
+  width: 6px;
+  background-color: rgb(1, 2, 21);
+  border: none;
+  border-left: 1px solid rgb(53, 53, 53);
+  border-bottom: 1px solid rgb(53, 53, 53);
+  box-shadow: 0 0 7px 1px rgb(0 0 0 / 50%);
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  left: -4px;
+}

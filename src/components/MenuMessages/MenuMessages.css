@@ -1,0 +1,123 @@
+.MenuMessages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 280px;
+  height: 100%;
+  color: #fff;
+  padding: 10px;
+  margin: 0;
+}
+
+.MenuMessages__title {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #fff;
+  user-select: none;
+  -ms-user-select: none;
+  margin-bottom: 10px;
+}
+
+.MenuMessages__buttons,
+.MenuMessages__list-list {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.MenuMessages__buttons__btn,
+.MenuMessages__list-message {
+  background-color: transparent;
+  border: none;
+  color: rgb(220, 220, 220);
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3px 5px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 21px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.MenuMessages__buttons__btn#button-sendMessage {
+  padding: 3px 2px;
+  gap: 7px;
+}
+
+.MenuMessages__buttons__btn p,
+.MenuMessages__list-message p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.MenuMessages__buttons__btn:hover,
+.MenuMessages__list-message:hover {
+  background-color: rgba(81, 92, 158, 0.1);
+  color: rgb(255, 255, 255);
+}
+
+.MenuMessages__buttons__btn::after,
+.MenuMessages__list-message::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+.MenuMessages__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.MenuMessages__list::-webkit-scrollbar {
+  width: 5px;
+  background: rgb(37, 46, 63);
+}
+
+.MenuMessages__list::-webkit-scrollbar-thumb {
+  background: rgb(98, 99, 109);
+  border-radius: 5px;
+}
+
+.MenuMessages__list::-webkit-scrollbar-thumb:hover {
+  background: rgb(125, 126, 136);
+}
+
+.MenuMessages__list-list,
+.MenuMessages__list-message {
+  list-style: none;
+}
+
+.MenuMessages__list-message__icon {
+  font-size: 7px;
+  color: #bbbbbb;
+}
+
+.MenuMessages__buttons__btn__icon {
+  font-size: 13px;
+}

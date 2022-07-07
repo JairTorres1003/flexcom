@@ -1,0 +1,547 @@
+.TextEdit {
+  width: 100%;
+  height: max-content;
+  padding: 10px;
+  position: relative;
+}
+
+.TextEdit__container {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(190, 190, 190);
+  border-radius: 5px;
+  border: 1px solid #141E30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.TextEdit__container__files {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: max-content;
+  max-height: 50px;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: .2s ease-in-out;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.TextEdit__container__files::-webkit-scrollbar-thumb {
+  background: #141E30;
+  border-radius: 5px;
+}
+
+.TextEdit__container__files::-webkit-scrollbar {
+  height: 4px;
+  background: transparent;
+}
+
+.TextEdit__container__files__file,
+.TextEdit__container__files__image {
+  width: max-content;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.TextEdit__container__files__file__preview,
+.TextEdit__container__files__image__preview {
+  width: max-content;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#file-document,
+#file-image {
+  opacity: 0;
+  display: none;
+  visibility: hidden;
+}
+
+.image_preview,
+.file_preview {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  position: relative;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image_preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image_preview span,
+.file_preview span {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: red;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  font-size: 10px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 12px;
+  font-weight: bold;
+}
+
+.file_preview div {
+  background-color: #ccdfe9;
+  width: 30px;
+  height: 100%;
+  border: 2px solid #141E30;
+  border-radius: 4px;
+  border-start-end-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.file_preview div::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 7px;
+  height: 9px;
+  border: 2px solid #141E30;
+}
+
+.file_preview div span {
+  position: relative;
+  background: none;
+  color: #141E30;
+  cursor: default;
+  border-radius: 0;
+  width: 100%;
+  top: 0;
+  height: max-content;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid #141E30;
+  border-bottom: 1px solid #141E30;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(7px);
+}
+
+.TextEdit__container__tools {
+  width: 100%;
+  height: 22px;
+  border-bottom: 1px solid #141E30;
+  border-top: 1px solid #141E30;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px;
+}
+
+.TextEdit__container__tools__buttons {
+  width: max-content;
+  height: 16px;
+  background-color: #141E30;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+}
+
+.TextEdit__container__tools__button {
+  width: 26px;
+  height: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: rgb(190, 190, 190);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(20, 30, 48, 0.75);
+  position: relative;
+}
+
+.TextEdit__container__tools__button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.TextEdit__container__tools__button:hover {
+  color: #141E30;
+  background-color: rgba(190, 190, 190, 0.5);
+}
+
+.icon_ToolsText {
+  font-size: 16px;
+}
+
+.icon_ToolsText#Icon_Tool-file,
+.icon_ToolsText#Icon_Tool-checklist,
+.icon_ToolsText#Icon_Tool-emoji {
+  font-size: 13px;
+}
+
+.icon_ToolsText#Icon_Tool-schedule {
+  font-size: 15px;
+}
+
+.icon_ToolsText#Icon_Tool-bold {
+  font-size: 17px;
+}
+
+.TextEdit__container__text {
+  width: 100%;
+  min-height: 40px;
+  max-height: 78px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 5px;
+}
+
+.TextEdit__container__text__textarea {
+  width: 100%;
+  line-height: 14px;
+  height: 100%;
+  padding: 5px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: none;
+  resize: none;
+  color: #141E30;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
+  background-color: rgb(190, 190, 190);
+  border-radius: 5px;
+}
+
+.TextEdit__container__text__textarea::-webkit-scrollbar {
+  width: 5px;
+  background: transparent;
+}
+
+.TextEdit__container__text__textarea::-webkit-scrollbar-thumb {
+  background: #141E30;
+  border-radius: 5px;
+}
+
+.TextEdit__container__text__textarea p {
+  width: 100%;
+}
+
+.TextEdit__container__text__textarea b {
+  font-weight: bold;
+}
+
+.TextEdit__container__text__textarea i {
+  font-style: italic;
+}
+
+.TextEdit__container__text__textarea u {
+  text-decoration: underline;
+}
+
+.TextEdit__container__text__textarea strike {
+  text-decoration: line-through;
+}
+
+.TextEdit__container__text__textarea ul {
+  padding-left: 22px;
+  text-indent: 1px;
+  list-style: unset;
+}
+
+.TextEdit__container__text__textarea ol {
+  padding-left: 20px;
+  text-indent: 3px;
+  list-style: reversed;
+}
+
+.TextEdit__container__text__placeholder {
+  color: rgba(20, 30, 48, 0.5);
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  user-select: none;
+  cursor: text;
+  display: block;
+}
+
+.TextEdit__container__text__placeholder._write {
+  display: none;
+}
+
+.TextEdit__container__text__button {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border: none;
+  background-color: rgb(190, 190, 190);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(20, 30, 48, 0.75);
+  position: relative;
+  border-radius: 5px;
+}
+
+.TextEdit__container__text__button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.icon_TextEdit {
+  font-size: 27px;
+}
+
+.TextEdit__container__text__button:hover,
+.TextEdit__container__text__button:focus {
+  color: #141E30;
+}
+
+span.span_buttonTools_title {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  font-family: Arial, Helvetica, sans-serif;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: 65px;
+  height: auto;
+  color: #fff;
+  font-size: 11px;
+  background-color: rgb(1, 2, 21);
+  padding: 5px;
+  border: 1px solid rgb(53, 53, 53);
+  border-radius: 3px;
+  box-shadow: 0 0 7px 1px rgb(0 0 0 / 50%);
+  transition: 0.2s ease-in-out;
+}
+
+span.span_buttonTools_title::after {
+  content: "";
+  position: absolute;
+  height: 6px;
+  width: 6px;
+  background-color: rgb(1, 2, 21);
+  border: none;
+  border-right: 1px solid rgb(53, 53, 53);
+  border-bottom: 1px solid rgb(53, 53, 53);
+  box-shadow: 0 0 7px 1px rgb(0 0 0 / 50%);
+  bottom: -4px;
+  transform: translateX(-50%) rotate(45deg);
+  left: 50%;
+}
+
+.TextEdit__container__text__button span.span_buttonTools_title {
+  bottom: calc(90% + 5px);
+  left: 30%;
+  max-width: 70px;
+}
+
+
+/** Estilos emoji-picker-react **/
+aside.emoji-picker-react {
+  height: 300px;
+  position: absolute;
+  bottom: 100%;
+  left: 10px;
+  box-shadow: 2px 2px 10px #9d9d9d;
+}
+
+.emoji-picker-react input.emoji-search {
+  border: 1px solid #141e3047;
+}
+
+section.emoji-scroll-wrapper::-webkit-scrollbar {
+  background: transparent;
+  width: 10px;
+}
+
+section.emoji-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #5b6b89;
+  border: none;
+  border-radius: 4px;
+}
+
+.emoji-picker-react .emoji-group:before {
+  background: rgb(255 255 255);
+  z-index: 2;
+}
+
+/**/
+.msg__container {
+  background: rgb(255 255 255 / 10%);
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-content: flex-start;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  padding: 5px;
+  gap: 3px;
+  position: relative;
+  transition: .2s;
+}
+
+.msg__container:hover {
+  background: rgb(255 255 255 / 20%);
+}
+
+.msg__container__header {
+  width: 100%;
+  height: 12px;
+  border: none;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-content: flex-end;
+  align-items: flex-end;
+  gap: 7px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h4.msg__container__header__user {
+  font-size: 13px;
+  color: rgb(7, 10, 16);
+  font-weight: bold;
+}
+
+span.msg__container__header__date {
+  font-size: 10px;
+  font-weight: normal;
+  color: rgb(7 10 16 / 60%);
+}
+
+.msg__container__body {
+  display: flex;
+  width: 100%;
+  height: max-content;
+  flex-direction: column;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.msg__container__body__text {
+  font-size: 13px;
+  color: rgb(7, 10, 16);
+  width: 100%;
+  line-height: 14px;
+  height: max-content;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.msg__container__body__text b {
+  font-weight: bold;
+}
+
+.msg__container__body__text i {
+  font-style: italic;
+}
+
+.msg__container__body__text u {
+  text-decoration: underline;
+}
+
+.msg__container__body__text strike {
+  text-decoration: line-through;
+}
+
+.msg__container__body__text ul {
+  padding-left: 22px;
+  text-indent: 1px;
+  list-style: unset;
+}
+
+.msg__container__body__text ol {
+  padding-left: 20px;
+  text-indent: 3px;
+  list-style: reversed;
+}
+
+.msg__container__body__text a {
+  cursor: pointer;
+}
+
+.msg__container__body__files,
+.msg__container__body__files__images {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.msg__actions {
+  position: absolute;
+  top: -15px;
+  right: 5px;
+  z-index: 2;
+  background: rgb(207 207 207);
+  height: 30px;
+  width: max-content;
+  display: none;
+  justify-content: center;
+  align-content: center;
+  flex-direction: row;
+  gap: 7px;
+  padding: 5px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px 0px #0000008f;
+}
+
+.msg__container:hover .msg__actions {
+  display: flex;
+}
