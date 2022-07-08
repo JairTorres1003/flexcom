@@ -1,13 +1,17 @@
-## Flexcom
+# Flexcom
 
+Pasos para ejecutar el proyecto...
  1. Instalar dependencias
  <code>npm install</code>
- 2. En la terminal Compilar el codigo de React
+
+#### Ejecucion en Escritorio
+
+ 1. En la terminal Compilar el codigo de React
  <code>npm run watch</code>
- 3. En otra terminal Ejecutar la aplicación de Electron
+ 2. En otra terminal Ejecutar la aplicación de Electron
  <code>npm start</code>
 
-### Deshabilitar para Web
+#### Ejecucion en Web
 
 Comentar
  1. script linea 18
@@ -22,3 +26,12 @@ Comentar
  <code>src\pages\Home\Home.css</code>
  6. Estilos de border linea 23
  <code>src\components\Menu\Menu.css</code>
+
+<!--
+#### Dependencias electron
+
+ 1. electron
+ 3. electron-reload
+ 2. concurrently
+ 3. wait-on
+-->

@@ -1,0 +1,51 @@
+li.ChannelList-channel {
+  background-color: transparent;
+  border: none;
+  color: rgb(220, 220, 220);
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 14px;
+  padding: 3px 2px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  width: 100%;
+  height: 21px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+li.ChannelList-channel:hover {
+  background-color: rgba(81, 92, 158, 0.1);
+  color: rgb(255, 255, 255);
+}
+
+li.ChannelList-channel::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+li.ChannelList-channel {
+  list-style: none;
+}
+
+li.ChannelList-channel p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+li.ChannelList-channel__icon {
+  font-size: 13px;
+  color: rgb(220, 220, 220);
+  width: max-content;
+  height: 100%;
+}

@@ -1,13 +1,14 @@
 import React from "react";
 import { IoAdd } from "react-icons/io5";
-import { RiHashtag } from "react-icons/ri";
-import { VscLock } from "react-icons/vsc";
+import { useChannel } from "../../hooks/useChannel";
 import { useModals } from "../../hooks/useModals";
+import ChannelList from "../ChannelList/ChannelList";
 
 import "./MenuChannel.css";
 
 export default function MenuChannel() {
   const { modals } = useModals();
+  const [listChannels] = useChannel();
 
   return (
     <div className="MenuChannel">
@@ -20,16 +21,15 @@ export default function MenuChannel() {
       </div>
       <div className="MenuChannel__list">
         <ul className="MenuChannel__list-list">
-          {/* ↓ Ejemplo Eliminar despues ↓ */}
-          <li className="MenuChannel__list-channel">
-            <RiHashtag className="MenuChannel__list-channel__icon" />
-            <p>Canal-1</p>
-          </li>
-          <li className="MenuChannel__list-channel">
-            <VscLock className="MenuChannel__list-channel__icon" />
-            <p>Canal-2</p>
-          </li>
-          {/* ↑ Ejemplo Eliminar despues ↑ */}
+          {
+            listChannels ?  listChannels.map((channel, index) => {
+              return <ChannelList 
+                key={index}
+                channel={channel.name}
+                visibility={channel.visibility}
+                />
+            }) : null
+          }
         </ul>
       </div>
     </div>

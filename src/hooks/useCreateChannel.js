@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { doc, setDoc } from "firebase/firestore";
+import db from "../firebase/firebaseConfig";
 
 export const useCreateChannel = () => {
   const [isCreate, setIsCreate] = useState({
     visibility: 'El canal es visible para todos, cualquier usuario puede unirse.',
   });
-
 
   const KeyUpNameChannel = (e) => {
     let name_channel = document.getElementById('name-channel');
@@ -49,18 +50,28 @@ export const useCreateChannel = () => {
       if (descriptionVal.length === 0) {
         descriptionVal = 'Canal de ' + nameVal;
       }
-
+      let members = [name_user.innerHTML];
       let dataChannel = {
         id: new Date().getTime(),
         name: nameVal,
         description: descriptionVal,
         visibility: visibility_channel.checked ? 'private' : 'public',
-        invite: invite_channel.value,
+        members: members,
         admin: name_user.innerHTML,
         created: new Date().toLocaleString()
       }
-      console.log('Canal creado', dataChannel);
 
+      const create = async () => {
+        await setDoc(doc(db, 'channels/' + nameVal), dataChannel);
+      }
+
+      create();
+
+      document.getElementById('button-Message').click();
+      setTimeout(() => {
+        document.getElementById('button-Channel').click();
+      }, 500);
+        
       name_channel.value = '';
       description_channel.value = '';
       visibility_channel.checked = false;
