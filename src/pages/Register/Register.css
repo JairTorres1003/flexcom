@@ -1,6 +1,6 @@
-.login {
+.register {
   width: 300px;
-  height: 450px;
+  height: 470px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 7px;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
@@ -10,7 +10,7 @@
   padding: 35px 40px;
 }
 
-.login__container {
+.register__container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@
   gap: 20px;
 }
 
-.login__header {
+.register__header {
   text-align: center;
   width: 100%;
   line-height: 30px;
@@ -33,7 +33,7 @@
   font-weight: bold;
 }
 
-.login__body {
+.register__body {
   width: 100%;
   height: 100%;
   display: flex;
@@ -43,21 +43,22 @@
   gap: 10px;
 }
 
-.login__body__input {
+.register__body__input {
   width: 100%;
-  height: 200px;
+  height: 240px;
+  min-height: 240px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   flex-wrap: nowrap;
   gap: 10px;
-  padding-top: 10px;
 }
 
-.login__body__input_email,
-.login__body__input_password {
+.register__body__input_name,
+.register__body__input_email,
+.register__body__input_password {
   width: 100%;
   height: 40px;
   border-radius: 2px;
@@ -71,8 +72,9 @@
   flex-wrap: nowrap;
 }
 
-.login__body__input_email input,
-.login__body__input_password input {
+.register__body__input_name input,
+.register__body__input_email input,
+.register__body__input_password input {
   width: 100%;
   height: 100%;
   border: none;
@@ -84,13 +86,15 @@
   padding: 5px 10px;
 }
 
-.login__body__input_email input:focus,
-.login__body__input_password input:focus {
+.register__body__input_name input:focus,
+.register__body__input_email input:focus,
+.register__body__input_password input:focus {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.login__body__input_email span.btn,
-.login__body__input_password button.btn {
+.register__body__input_name span.btn,
+.register__body__input_email span.btn,
+.register__body__input_password button.btn {
   width: 35px;
   height: 40px;
   border: none;
@@ -103,27 +107,29 @@
   color: #8f8f8f;
 }
 
-.login__body__input_password button.btn {
+.register__body__input_password button.btn {
   cursor: pointer;
 }
 
-.login__body__input_email input:focus~span.btn,
-.login__body__input_password input:focus~button.btn {
+.register__body__input_name input:focus~span.btn,
+.register__body__input_email input:focus~span.btn,
+.register__body__input_password input:focus~button.btn {
   background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
 
-.login__body__input_email span.btn .login_iconBtn,
-.login__body__input_password button.btn .login_iconBtn {
+.register__body__input_name span.btn .register_iconBtn, 
+.register__body__input_email span.btn .register_iconBtn, 
+.register__body__input_password button.btn .register_iconBtn {
   font-size: 13px;
 }
 
-.login__body__input_password button.btn .login_iconBtn:active,
-.login__body__input_password button.btn:focus .login_iconBtn {
+.register__body__input_password button.btn .register_iconBtn:active,
+.register__body__input_password button.btn:focus .register_iconBtn {
   color: #ffffff;
 }
 
-span.message_error_login {
+span.message_error_register {
   color: rgb(255 0 0);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -133,7 +139,7 @@ span.message_error_login {
   text-align: left;
 }
 
-.login__body__button {
+.register__body__button {
   width: 100%;
   height: 100%;
   border-radius: 2px;
@@ -146,7 +152,7 @@ span.message_error_login {
   flex-wrap: nowrap;
 }
 
-.login__body__button button.btn {
+.register__body__button button.btn {
   width: 100%;
   height: 40px;
   border-radius: 30px;
@@ -163,24 +169,24 @@ span.message_error_login {
   overflow: hidden;
 }
 
-.login__body__button button.btn:hover {
+.register__body__button button.btn:hover {
   background-color: rgba(0, 140, 233, 0.7);
 }
 
-.login__body__button button.btn:focus {
+.register__body__button button.btn:focus {
   background-color: rgba(0, 140, 233, 0.7);
 }
 
-.login__body__button button.btn>span {
+.register__body__button button.btn>span {
   position: absolute;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 0.15);
   border-radius: 50%;
   border: none;
-  animation: rippleLogin .7s linear;
+  animation: rippleRegister .7s linear;
 }
 
-@keyframes rippleLogin {
+@keyframes rippleRegister {
   0% {
     width: 0;
     height: 0;
@@ -197,25 +203,27 @@ span.message_error_login {
   }
 }
 
-.login__body__button span.no_account {
+.register__body__button span.account {
   text-transform: uppercase;
   color: #8f8f8f;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.7em;
+  text-align: center;
+  line-height: 16px;
 }
 
-.login__body__button span.no_account a {
+.register__body__button span.account a {
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
 }
 
-.login__body__button span.no_account a:hover,
-.login__body__button span.no_account a:focus {
+.register__body__button span.account a:hover,
+.register__body__button span.account a:focus {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.login__body__button span.no_account a:active {
+.register__body__button span.account a:active {
   color: rgb(0, 140, 233);
 }
 

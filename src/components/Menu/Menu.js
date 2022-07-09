@@ -122,7 +122,7 @@ const useMenu = () => {
 window.addEventListener("click", function (e) {
   const account = document.getElementById("account-panel");
   const buttonAccount = document.getElementById("button-Account");
-  if (e.target !== account && e.target !== buttonAccount) {
+  if (e.target !== account && e.target !== buttonAccount && window.location.href.indexOf("/register") === -1 && window.location.href.indexOf("/login") === -1) {
     account.classList.add("_view");
   }
 });

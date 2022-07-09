@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoMailOutline, IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useLogin } from "../../hooks/useLogin";
 
 import "./Login.css";
 
@@ -8,9 +9,11 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState({
     eye: <IoEyeOutline className="login_iconBtn" />
   });
+  const [login, rippleLoginButton] = useLogin();
 
-  const updateShowPassword = () => {
-    const input = document.getElementById("input-password");
+  const updateShowPassword = (e) => {
+    e.preventDefault();
+    const input = document.getElementById("input-login-password");
     let icon;
     if (input.type === "password") {
       input.type = "text";
@@ -28,50 +31,38 @@ export default function Login() {
 
   return (
     <div className="login">
-      <div className="login__container">
+      <section className="login__container">
         <div className="login__header">
           <h1>Inicio de sesión</h1>
         </div>
-        <div className="login__body">
+        <form className="login__body">
           <div className="login__body__input">
             <div className="login__body__input_email">
-              <input type="email" placeholder="Correo electrónico" />
+              <input type="email" placeholder="Correo electrónico" id="input-login-email" />
               <span className="btn"><IoMailOutline className="login_iconBtn" /></span>
             </div>
+            {
+              login.email ? <span className="message_error_login">{login.email}</span> : null
+            }
             <div className="login__body__input_password">
-              <input type="password" placeholder="Contraseña" id="input-password" />
+              <input type="password" placeholder="Contraseña" id="input-login-password" />
               <button className="btn" id="showPass-button" onClick={updateShowPassword}>
                 {showPassword.eye}
               </button>
             </div>
+            {
+              login.password ? <span className="message_error_login">{login.password}</span> : null
+            }
           </div>
           <div className="login__body__button">
-            <button className="btn" id="login-button" onClick={rippleButton}>INICIAR SESIÓN</button>
-            <button className="btn">VOLVER</button>
+            <button className="btn" id="login-button" onClick={rippleLoginButton}>INICIAR SESIÓN</button>
             <span className="no_account">
               ¿NO TIENES CUENTA?&nbsp;
-              <a href="">REGÍSTRATE</a>
+              <Link to="/register">REGÍSTRATE</Link>
             </span>
           </div>
-        </div>
-      </div>
+        </form>
+      </section>
     </div>
   );
-}
-
-/// Efecto al hacer click en el botón de iniciar sesión
-function rippleButton(e) {
-  const button = document.getElementById("login-button");
-  let ripple = document.createElement("span");
-  let x = e.clientX - button.offsetLeft;
-  let y = e.clientY - button.offsetTop;
-
-  ripple.style.left = x + "px";
-  ripple.style.top = y + "px";
-
-  button.appendChild(ripple);
-
-  setTimeout(function () {
-    ripple.remove();
-  }, 700);
 }
