@@ -38,7 +38,7 @@ export default function Login() {
         <form className="login__body">
           <div className="login__body__input">
             <div className="login__body__input_email">
-              <input type="email" placeholder="Correo electrónico" id="input-login-email" />
+              <input type="email" placeholder="Correo electrónico" id="input-login-email" autoComplete="off" />
               <span className="btn"><IoMailOutline className="login_iconBtn" /></span>
             </div>
             {
@@ -55,7 +55,9 @@ export default function Login() {
             }
           </div>
           <div className="login__body__button">
-            <button className="btn" id="login-button" onClick={rippleLoginButton}>INICIAR SESIÓN</button>
+            <button className="btn" id="login-button" onClick={rippleLoginButton}>
+              {login.loading ? "INICIANDO SESIÓN..." : "INICIAR SESIÓN"}
+            </button>
             <span className="no_account">
               ¿NO TIENES CUENTA?&nbsp;
               <Link to="/register">REGÍSTRATE</Link>

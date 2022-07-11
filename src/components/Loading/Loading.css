@@ -1,0 +1,49 @@
+.loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+}
+
+.loading__text,
+.loading__text--dot {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  text-align: center;
+}
+
+.loading__text--dot {
+  animation: loading-text-animation 1s ease-in-out infinite;
+}
+
+.loading__text--dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading__text--dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading__text--dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading-text-animation {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

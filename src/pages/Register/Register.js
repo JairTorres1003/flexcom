@@ -41,15 +41,15 @@ export default function Register() {
             <form className="register__body">
               <div className="register__body__input">
                 <div className="register__body__input_name">
-                  <input type="text" placeholder="Nombre completo" className="register__inputs" />
+                  <input type="text" placeholder="Nombre completo" className="register__inputs" autoComplete="off" />
                   <span className="btn"><IoPersonCircleOutline className="register_iconBtn" /></span>
                 </div>
                 <div className="register__body__input_email">
-                  <input type="email" placeholder="Correo electrónico" id="register-email" className="register__inputs" />
+                  <input type="email" placeholder="Correo electrónico" id="register-email" className="register__inputs" autoComplete="off" />
                   <span className="btn"><IoMailOutline className="register_iconBtn" /></span>
                 </div>
                 <div className="register__body__input_email">
-                  <input type="email" placeholder="Confirmar correo electrónico" id="register-confirm-email" className="register__inputs" onKeyUp={valConfirmEmail} />
+                  <input type="email" placeholder="Confirmar correo electrónico" id="register-confirm-email" className="register__inputs" onKeyUp={valConfirmEmail} autoComplete="off" />
                   <span className="btn"><IoMailOutline className="register_iconBtn" /></span>
                 </div>
                 {
@@ -72,7 +72,9 @@ export default function Register() {
                 }
               </div>
               <div className="register__body__button">
-                <button className="btn" id="register-button" onClick={rippleRegisterButton}>CREAR CUENTA</button>
+                <button className="btn" id="register-button" type="submit" onClick={rippleRegisterButton}>
+                { register.loading ? "CREANDO CUENTA..." : "CREAR CUENTA" }
+                </button>
                 <span className="account">
                   ¿YA TIENES UNA CUENTA?<br />
                   <Link to="/login">INICIA SESIÓN</Link>

@@ -1,10 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { updateDoc, doc } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth, db } from "../firebase/firebaseConfig";
 
 export const useLogin = () => {
   const [login, setLogin] = useState({
     email: null,
-    password: null
+    password: null,
+    loading: false
   });
+
+  const navigate = useNavigate();
 
   const rippleLoginButton = (e) => {
     e.preventDefault();
@@ -32,34 +39,41 @@ export const useLogin = () => {
         password: "El correo electrónico o la contraseña son incorrectos"
       });
     } else {
-      if (inputLoginEmail.value === "" || inputLoginEmail.value.indexOf("@inemflex.com") === -1) {
+      if (inputLoginEmail.value === "" || inputLoginEmail.value.indexOf("@inemflex.com") !== -1) {
         setLogin({
           ...login,
           email: "El correo electrónico no es válido",
           password: null
         });
       } else {
-        if (inputLoginEmail.value !== "test@inemflex.com") {
-          setLogin({
-            ...login,
-            email: "El correo electrónico no está registrado",
-            password: null
-          });
-        } else {
-          if (inputLoginEmail.value === "test@inemflex.com" && inputLoginPassword.value !== "123456") {
-            setLogin({
-              ...login,
-              email: null,
-              password: "La contraseña es incorrecta"
+        setLogin({ ...login, confirmEmail: null, loading: true });
+        try {
+          const loginUser = async () => {
+            const result = await signInWithEmailAndPassword(
+              auth,
+              inputLoginEmail.value,
+              inputLoginPassword.value
+            ).then((result) => {
+              const update = async () => {
+                await updateDoc(doc(db, "users", result.user.uid), {
+                  isOnline: true
+                }).then(() => {
+                  setLogin({
+                    email: null,
+                    password: null,
+                    loading: false
+                  });
+                  navigate("/");
+                });
+              }
+              update();
+            }).catch(err => {
+              setLogin({ ...login, email: null, password: "El correo electrónico o la contraseña son incorrectos", loading: false });
             });
-          } else {
-            setLogin({
-              ...login,
-              email: null,
-              password: null
-            });
-            console.log("Login correcto");
           }
+          loginUser();
+        } catch (err) {
+          setLogin({ ...login, password: err.message, loading: false });
         }
       }
     }

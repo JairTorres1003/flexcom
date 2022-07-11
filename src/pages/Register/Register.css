@@ -86,6 +86,10 @@
   padding: 5px 10px;
 }
 
+.register__body__input_name input {
+  text-transform: capitalize;
+}
+
 .register__body__input_name input:focus,
 .register__body__input_email input:focus,
 .register__body__input_password input:focus {
