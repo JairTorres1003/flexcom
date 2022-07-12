@@ -66,11 +66,6 @@ export const useCreateChannel = () => {
       }
 
       create();
-
-      document.getElementById('button-Message').click();
-      setTimeout(() => {
-        document.getElementById('button-Channel').click();
-      }, 500);
         
       name_channel.value = '';
       description_channel.value = '';

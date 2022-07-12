@@ -8,7 +8,7 @@ import "./MenuChannel.css";
 
 export default function MenuChannel() {
   const { modals } = useModals();
-  const [listChannels] = useChannel();
+  const { listChannels }= useChannel();
 
   return (
     <div className="MenuChannel">

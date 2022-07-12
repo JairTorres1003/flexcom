@@ -1,0 +1,51 @@
+.MenuUsers__users--user {
+  list-style: none;
+  background-color: transparent;
+  border: none;
+  color: rgb(220, 220, 220);
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 3px 5px;
+  cursor: pointer;
+  width: 100%;
+  height: 21px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3px;
+  position: relative;
+}
+
+.MenuUsers__users--user p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.MenuUsers__users--user:hover {
+  background-color: rgba(81, 92, 158, 0.1);
+  color: rgb(255, 255, 255);
+}
+
+.MenuUsers__users--user::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+svg.MenuUsers__users--user__icon.--online {
+  font-size: 7px;
+  margin: 0 7px;
+  color: #349b50;
+}
+
+svg.MenuUsers__users--user__icon.--offline{
+  font-size: 7px;
+  margin: 0 7px;
+  color: #af2828;
+}

@@ -50,10 +50,8 @@
   background: rgb(125, 126, 136);
 }
 
-.MenuUsers__users__online-list,
-.MenuUsers__users__online-user,
-.MenuUsers__users__offline-list,
-.MenuUsers__users__offline-user {
+.MenuUsers__users__online-list, 
+.MenuUsers__users__offline-list {
   list-style: none;
 }
 
@@ -68,9 +66,7 @@
 }
 
 .MenuUsers__users__online__btn,
-.MenuUsers__users__offline__btn,
-.MenuUsers__users__online-user,
-.MenuUsers__users__offline-user {
+.MenuUsers__users__offline__btn{
   background-color: transparent;
   border: none;
   color: rgb(220, 220, 220);
@@ -89,30 +85,14 @@
   position: relative;
 }
 
-.MenuUsers__users__online-user,
-.MenuUsers__users__offline-user {
-  gap: 3px;
-}
-
-.MenuUsers__users__online-user p,
-.MenuUsers__users__offline-user p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .MenuUsers__users__online__btn:hover,
-.MenuUsers__users__offline__btn:hover,
-.MenuUsers__users__online-user:hover,
-.MenuUsers__users__offline-user:hover {
+.MenuUsers__users__offline__btn:hover {
   background-color: rgba(81, 92, 158, 0.1);
   color: rgb(255, 255, 255);
 }
 
 .MenuUsers__users__online__btn::after,
-.MenuUsers__users__offline__btn::after,
-.MenuUsers__users__online-user::after,
-.MenuUsers__users__offline-user::after {
+.MenuUsers__users__offline__btn::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -132,21 +112,5 @@
   align-items: flex-start;
   gap: 3px;
   transition: .2s ease-in-out;
-}
-
-.MenuUsers__users__online__btn__icon {
-  font-size: 13px;
-  color: #fff;
-}
-
-.MenuUsers__users__online-user__icon {
-  font-size: 7px;
-  margin: 0 7px;
-  color: #349b96;
-}
-
-.MenuUsers__users__offline-user__icon {
-  font-size: 7px;
-  margin: 0 7px;
-  color: #bbbbbb;
+  list-style: none;
 }

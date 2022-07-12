@@ -1,24 +1,52 @@
-import React, { useState } from "react";
-import { BsCircleFill } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
 import { HiOutlineChevronDown, HiOutlineChevronRight } from "react-icons/hi";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { auth, db } from "../../firebase/firebaseConfig";
 
 import "./MenuUsers.css";
+import { User } from "../User/User";
 
 export default function MenuUsers() {
-  const [isOpenOnline, setIsOpenOnline] = useState({
-    icon: <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />
-  }
-  );
-  const [isOpenOffline, setIsOpenOffline] = useState({
-    icon: <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />
-  });
+  const { users, isOpenUsers, deployUsers, selectUser } = useUsers();
 
-  const openOnline = () => {
-    deployUsers(0);
-  }
-  const openOffline = () => {
-    deployUsers(1);
-  }
+  return (
+    <div className="MenuUsers">
+      <h2 className="MenuUsers__title">Usuarios</h2>
+      <div className="MenuUsers__users">
+        <div className="MenuUsers__users__online">
+          <button className="MenuUsers__users__online__btn" id="button-online" onClick={() => deployUsers(0)}>
+            {isOpenUsers.iconOnline}
+            <p>Usuarios en linea</p>
+          </button>
+          <ul className="MenuUsers__users__online-list --userListOnOff" onChange={() => console.log('cambio')}>
+            {
+              users.filter(user => user.isOnline).map(user => <User key={user.uid} user={user} selectUser={selectUser} />)
+            }
+          </ul>
+        </div>
+        <div className="MenuUsers__users__offline">
+          <button className="MenuUsers__users__offline__btn" id="button-offline" onClick={() => deployUsers(1)}>
+            {isOpenUsers.iconOffline}
+            <p>Usuarios desconectados</p>
+          </button>
+          <ul className="MenuUsers__users__offline-list --userListOnOff">
+            {
+              users.filter(user => !user.isOnline).map(user => <User key={user.uid} user={user} selectUser={selectUser} />)
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const useUsers = () => {
+  const [users, setUsers] = useState([]);
+
+  const [isOpenUsers, setIsOpenUsers] = useState({
+    iconOnline: <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />, 
+    iconOffline: <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />
+  });
 
   const deployUsers = (btn) => {
     let userListOnOff = document.getElementsByClassName('--userListOnOff');
@@ -28,10 +56,10 @@ export default function MenuUsers() {
     let iconChevron2;
 
     MenuUsersContent.scrollTop = 0;
+    userListOnOff[1 - btn].removeAttribute('style');
 
     if (userListOnOff[btn].offsetHeight === 0 && heightUsers > 0) {
       userListOnOff[btn].style.height = heightUsers + 'px';
-      userListOnOff[1 - btn].removeAttribute('style');
       if (btn === 0) {
         iconChevron1 = <HiOutlineChevronDown className="MenuUsers__users__onOff__btn__icon" />;
         iconChevron2 = <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />;
@@ -45,59 +73,30 @@ export default function MenuUsers() {
       iconChevron2 = <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />;
     }
 
-    setIsOpenOnline(prviusState => {
+    setIsOpenUsers(prviusState => {
       return {
-        ...prviusState, icon: iconChevron1
-      };
-    });
-    setIsOpenOffline(prviusState => {
-      return {
-        ...prviusState, icon: iconChevron2
+        ...prviusState,
+        iconOnline: iconChevron1,
+        iconOffline: iconChevron2
       };
     });
   }
 
-  return (
-    <div className="MenuUsers">
-      <h2 className="MenuUsers__title">Usuarios</h2>
-      <div className="MenuUsers__users">
-        <div className="MenuUsers__users__online">
-          <button className="MenuUsers__users__online__btn" id="button-online" onClick={openOnline}>
-            {isOpenOnline.icon}
-            <p>Usuarios en linea</p>
-          </button>
-          <ul className="MenuUsers__users__online-list --userListOnOff">
-            {/* ↓ Ejemplo Eliminar despues ↓ */}
-            <li className="MenuUsers__users__online-user">
-              <BsCircleFill className="MenuUsers__users__online-user__icon" />
-              <p>Nombre usuario 1</p>
-            </li>
-            <li className="MenuUsers__users__online-user">
-              <BsCircleFill className="MenuUsers__users__online-user__icon" />
-              <p>Nombre usuario 2</p>
-            </li>
-            {/* ↑ Ejemplo Eliminar despues ↑ */}
-          </ul>
-        </div>
-        <div className="MenuUsers__users__offline">
-          <button className="MenuUsers__users__offline__btn" id="button-offline" onClick={openOffline}>
-            {isOpenOffline.icon}
-            <p>Usuarios desconectados</p>
-          </button>
-          <ul className="MenuUsers__users__offline-list --userListOnOff">
-            {/* ↓ Ejemplo Eliminar despues ↓ */}
-            <li className="MenuUsers__users__offline-user">
-              <BsCircleFill className="MenuUsers__users__offline-user__icon" />
-              <p>Nombre usuario 3</p>
-            </li>
-            <li className="MenuUsers__users__offline-user">
-              <BsCircleFill className="MenuUsers__users__offline-user__icon" />
-              <p>Nombre usuario 4</p>
-            </li>
-            {/* ↑ Ejemplo Eliminar despues ↑ */}
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
+  useEffect(() => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where('uid', 'not-in', [auth.currentUser.uid]));
+    const unsub = onSnapshot(q, querySnapshot => {
+      let users = [];
+      querySnapshot.forEach(doc => {
+        users.push(doc.data());
+      });
+      setUsers(users);
+    });
+  }, []);
+
+  const selectUser = (user) => {
+    console.log(user);
+  }
+
+  return { users, isOpenUsers, deployUsers, selectUser };
 }
