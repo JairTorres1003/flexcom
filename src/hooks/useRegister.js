@@ -64,7 +64,7 @@ export const useRegister = () => {
         break;
       }
       dataRegister = {
-        name: registerInputs[0].value,
+        name: registerInputs[0].value.replace(/\b[a-z]/g, (letter) => letter.toUpperCase()),
         email: registerInputs[2].value,
         password: registerInputs[4].value,
       }
@@ -105,7 +105,7 @@ export const useRegister = () => {
 
                 swal({
                   title: "¡Bienvenido!",
-                  text: "Se ha enviado un correo de confirmación a su cuenta de correo electrónico. Por favor, revise su bandeja de entrada.",
+                  text: "Se ha enviado un correo de confirmación a su cuenta de correo electrónico. Por favor, revise su bandeja de entrada como la carpeta de SPAM.",
                   icon: "success",
                   button: "Aceptar"
                 }).then(() => {

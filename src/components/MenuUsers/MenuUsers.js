@@ -6,8 +6,8 @@ import { auth, db } from "../../firebase/firebaseConfig";
 import "./MenuUsers.css";
 import { User } from "../User/User";
 
-export default function MenuUsers() {
-  const { users, isOpenUsers, deployUsers, selectUser } = useUsers();
+export default function MenuUsers({ setCurrentChat }) {
+  const { users, isOpenUsers, deployUsers } = useUsers();
 
   return (
     <div className="MenuUsers">
@@ -18,9 +18,13 @@ export default function MenuUsers() {
             {isOpenUsers.iconOnline}
             <p>Usuarios en linea</p>
           </button>
-          <ul className="MenuUsers__users__online-list --userListOnOff" onChange={() => console.log('cambio')}>
+          <ul className="MenuUsers__users__online-list --userListOnOff">
             {
-              users.filter(user => user.isOnline).map(user => <User key={user.uid} user={user} selectUser={selectUser} />)
+              users.filter(user => user.isOnline).map(user => <User 
+                key={user.uid} 
+                user={user} 
+                setCurrentChat={setCurrentChat}
+              />)
             }
           </ul>
         </div>
@@ -31,7 +35,11 @@ export default function MenuUsers() {
           </button>
           <ul className="MenuUsers__users__offline-list --userListOnOff">
             {
-              users.filter(user => !user.isOnline).map(user => <User key={user.uid} user={user} selectUser={selectUser} />)
+              users.filter(user => !user.isOnline).map(user => <User 
+                key={user.uid} 
+                user={user} 
+                setCurrentChat={setCurrentChat}
+              />)
             }
           </ul>
         </div>
@@ -94,9 +102,5 @@ const useUsers = () => {
     });
   }, []);
 
-  const selectUser = (user) => {
-    console.log(user);
-  }
-
-  return { users, isOpenUsers, deployUsers, selectUser };
+  return { users, isOpenUsers, deployUsers };
 }

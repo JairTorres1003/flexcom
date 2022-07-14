@@ -6,7 +6,7 @@ import ChannelList from "../ChannelList/ChannelList";
 
 import "./MenuChannel.css";
 
-export default function MenuChannel() {
+export default function MenuChannel({ setCurrentChat }) {
   const { modals } = useModals();
   const { listChannels }= useChannel();
 
@@ -25,8 +25,8 @@ export default function MenuChannel() {
             listChannels ?  listChannels.map((channel, index) => {
               return <ChannelList 
                 key={index}
-                channel={channel.name}
-                visibility={channel.visibility}
+                channel={channel}
+                setCurrentChat={setCurrentChat}
                 />
             }) : null
           }

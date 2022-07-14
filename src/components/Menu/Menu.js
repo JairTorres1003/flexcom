@@ -15,8 +15,8 @@ import MenuMessages from "../MenuMessages/MenuMessages";
 import MenuNotification from "../MenuNotification/MenuNotification";
 import MenuUsers from "../MenuUsers/MenuUsers";
 
-export default function Menu() {
-  const [menu, openMenu, closeMenu, openAccount, signOutUser] = useMenu();
+export default function Menu({ setCurrentChat }) {
+  const [menu, openMenu, closeMenu, openAccount, signOutUser] = useMenu({ setCurrentChat });
   const { user } = useContext(AuthContext);
 
   return (
@@ -83,7 +83,7 @@ export default function Menu() {
   );
 }
 
-const useMenu = () => {
+const useMenu = ({ setCurrentChat }) => {
   const [menu, setMenu] = useState(null);
   const navigate = useNavigate();
 
@@ -100,11 +100,11 @@ const useMenu = () => {
     if (btn === 0) {
       typeMenu = <MenuNotification />;
     } else if (btn === 1) {
-      typeMenu = <MenuChannel />;
+      typeMenu = <MenuChannel setCurrentChat={setCurrentChat} />;
     } else if (btn === 2) {
-      typeMenu = <MenuMessages />;
+      typeMenu = <MenuMessages setCurrentChat={setCurrentChat} />;
     } else if (btn === 3) {
-      typeMenu = <MenuUsers />;
+      typeMenu = <MenuUsers setCurrentChat={setCurrentChat} />;
     }
 
     setMenu(typeMenu);

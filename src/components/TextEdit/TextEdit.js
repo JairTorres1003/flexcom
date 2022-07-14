@@ -12,14 +12,14 @@ import "./TextEdit.css";
 import { useModals } from "../../hooks/useModals";
 import { useTextEdit } from "../../hooks/useTextEdit";
 
-export default function TextEdit() {
+export default function TextEdit({ currentChat }) {
   const { modals } = useModals();
   const [showPicker, setShowPicker] = useState({
     show: false,
     position: 0,
     emojiObject: null
   });
-  const {textEdits} = useTextEdit();
+  const {textEdits} = useTextEdit({currentChat});
 
   const onEmojiClick = (event, emojiObject) => {
     setShowPicker(previusState => {
@@ -97,13 +97,13 @@ export default function TextEdit() {
             </button>
           </div>
         </div>
-        <div className="TextEdit__container__text">
+        <form className="TextEdit__container__text">
           <div className="TextEdit__container__text__textarea" contentEditable="true" id="textEdit-divTextarea" onKeyUp={textEdits.handleTextEdit} onKeyDown={textEdits.controlKey}><p><br /></p></div>
           <span className="TextEdit__container__text__placeholder" id="textEdit-spanPlaceholder" onClick={textEdits.clickTextEdit}>Escribe un mensaje aquí...</span>
           <button className="TextEdit__container__text__button" id="send-button" onClick={textEdits.sendMessage} onMouseOver={() => textEdits.handleMouseOver(13)} onMouseOut={textEdits.handleMouseOut}>
             <IoSendSharp className="icon_TextEdit" />
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -5,15 +5,15 @@ import { VscLock } from "react-icons/vsc";
 
 import "./ChannelList.css";
 
-export default function ChannelList({ channel, visibility }) {
+export default function ChannelList({ channel, setCurrentChat }) {
   return (
-    <li className="ChannelList-channel">
-      {visibility === "public" ? (
+    <li className="ChannelList-channel" onClick={() => setCurrentChat(channel)}>
+      {channel.visibility === "public" ? (
         <RiHashtag className="ChannelList-channel__icon" />
       ) : (
         <VscLock className="ChannelList-channel__icon" />
       )}
-      <p>{channel}</p>
+      <p>{channel.name}</p>
     </li>
   );
 }

@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BsCircleFill } from "react-icons/bs";
 import { IoAdd } from "react-icons/io5";
+import { AuthContext } from "../../context/authProvider";
 
 import "./MenuMessages.css";
 
-export default function MenuMessages() {
+export default function MenuMessages({ setCurrentChat }) {
+  const { user } = useContext(AuthContext);
+  const userObj = {
+    name: user.displayName,
+    uid: user.uid
+  }
+
   return (
     <div className="MenuMessages">
       <h2 className="MenuMessages__title">Mensajes</h2>
@@ -13,9 +20,9 @@ export default function MenuMessages() {
           <IoAdd className="MenuMessages__buttons__btn__icon" />
           <p>Envia un nuevo mensaje</p>
         </button>
-        <button className="MenuMessages__buttons__btn" id="button-draftMessage">
+        <button className="MenuMessages__buttons__btn" id="button-draftMessage" onClick={() => setCurrentChat(userObj)}>
           <BsCircleFill className="MenuMessages__list-message__icon" />
-          <p>Nombre Completo <span>(tú)</span></p>
+          <p>{user ? user.displayName : null} <span>(tú)</span></p>
         </button>
       </div>
       <div className="MenuMessages__list">

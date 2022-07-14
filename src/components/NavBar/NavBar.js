@@ -1,14 +1,29 @@
 import React from "react";
 import { HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi";
 import { IoPeopleOutline } from "react-icons/io5";
+import { RiHashtag } from "react-icons/ri";
+import { VscLock } from "react-icons/vsc";
 
 import "./NavBar.css";
 
-function NavBar() {
+function NavBar({ currentChat }) {
   return (
     <div className="NavBar">
       <div className="NavBar__title">
-        <label id="nameOrChannel">Nombre/Canal</label>
+        {
+          currentChat ? (
+            currentChat.hasOwnProperty("visibility") ? (
+              currentChat.visibility === "public" ? (
+                <RiHashtag className="NavBar__title__icon" />
+              ) : (
+                <VscLock className="NavBar__title__icon" />
+              )
+            ) : null
+          ) : null
+        }
+        <label id="nameOrChannel">{
+          currentChat ? currentChat.name : ""
+        }</label>
       </div>
       <div className="NavBar__finder">
         <input type="text" placeholder="Busca" className="NavBar__finder__input" />

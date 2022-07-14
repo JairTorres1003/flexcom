@@ -1,12 +1,18 @@
+/* eslint-disable default-case */
 /* eslint-disable no-restricted-globals */
-import { useState } from 'react';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../context/authProvider';
+import { db, storage } from '../firebase/firebaseConfig';
 
 
-export const useTextEdit = () => {
+export const useTextEdit = ({ currentChat }) => {
   const [isTextEdit, setTextEdit] = useState({
     dataFiles: [],
     dataImages: []
   });
+  const { user } = useContext(AuthContext)
 
   // funcion que quita el span placeholder cuando se escribe en el div textarea
   const handleTextEdit = () => {
@@ -51,78 +57,127 @@ export const useTextEdit = () => {
   }
 
   // envia el mensaje al hacer click en el boton enviar
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault();
     let textEditDivTextarea = document.getElementById("textEdit-divTextarea");
     let ChatMessages = document.getElementsByClassName("Chat__messages")[0];
-    let name_user = document.getElementById('name-user');
+    let textEditFilePreview = document.getElementsByClassName("TextEdit__container__files__file__preview")[0];
+    let textEditImagePreview = document.getElementsByClassName("TextEdit__container__files__image__preview")[0];
 
-    let msgObject = {
-      msg: textEditDivTextarea.innerHTML,
-      date: new Date().toLocaleString(),
-      user: name_user.innerHTML,
-      reply: false,
-      files: {
-        dataFiles: isTextEdit.dataFiles,
-        dataImages: isTextEdit.dataImages
+    if (textEditDivTextarea.innerText.trim() !== "" || isTextEdit.dataFiles.length > 0 || isTextEdit.dataImages.length > 0) {
+      let userOne = 0;
+      let userTwo = 0;
+      let chatId = 0;
+
+      if (currentChat) {
+        if (currentChat.hasOwnProperty("visibility")) {
+          chatId = currentChat.id;
+        } else {
+          userOne = user.uid;
+          userTwo = currentChat.uid;
+          chatId = userOne > userTwo ? `${userOne}+${userTwo}` : `${userTwo}+${userOne}`
+        }
+        const handleSendMessage = async () => {
+          let urlImg = [];
+          let urlFile = [];
+  
+          if (isTextEdit.dataImages.length > 0) {
+            for (let i = 0; i < isTextEdit.dataImages.length; i++) {
+              const image = isTextEdit.dataImages[i];
+              const imageRef = ref(storage, `chats/images/${new Date().getTime()}-${image.name}`);
+              const snap = await uploadBytes(imageRef, image);
+              const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
+              urlImg.push(dlUrl);
+            }
+          }
+  
+          if (isTextEdit.dataFiles.length > 0) {
+            for (let i = 0; i < isTextEdit.dataFiles.length; i++) {
+              const file = isTextEdit.dataFiles[i];
+              const fileRef = ref(storage, `chats/files/${new Date().getTime()}-${file.name}`);
+              const snap = await uploadBytes(fileRef, file);
+              const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
+              urlFile.push(dlUrl);
+            }
+          }
+  
+          await addDoc(collection(db, 'messages', chatId, 'chat'), {
+            message: textEditDivTextarea.innerText.trim() === "" ? "" : textEditDivTextarea.innerHTML,
+            nameFrom: user.displayName,
+            from: userOne,
+            to: userTwo,
+            createdAt: Timestamp.fromDate(new Date()),
+            media: urlImg,
+            files: urlFile,
+            reply: false
+          })
+        }
+        handleSendMessage();
+  
+  
+        ChatMessages.scrollTop = ChatMessages.scrollHeight;
+        textEditDivTextarea.innerHTML = '';
+        textEditFilePreview.innerHTML = '';
+        textEditImagePreview.innerHTML = '';
+        handleTextEdit();
+        setTextEdit({
+          ...isTextEdit,
+          dataFiles: [],
+          dataImages: []
+        });
       }
     }
-    console.log(msgObject);
-
-    let msg = document.createElement("div");
-    msg.classList.add("msg__container");
-
-    let msg_header = document.createElement("div");
-    msg_header.classList.add("msg__container__header");
-
-    let msg_header_user = document.createElement("h4");
-    msg_header_user.classList.add("msg__container__header__user");
-    msg_header_user.innerHTML = msgObject.user;
-
-    let msg_header_date = document.createElement("span");
-    msg_header_date.classList.add("msg__container__header__date");
-    msg_header_date.innerHTML = msgObject.date;
-
-    let msg_body = document.createElement("div");
-    msg_body.classList.add("msg__container__body");
-
-    let msg_body_text = document.createElement("div");
-    msg_body_text.classList.add("msg__container__body__text");
-    msg_body_text.innerHTML = msgObject.msg;
-
-    let msg_body_files = document.createElement("div");
-    msg_body_files.classList.add("msg__container__body__files");
-    if (msgObject.files.dataFiles.length > 0) {
-      msg_body_files.innerHTML = `<p>Archivos:${msgObject.files.dataFiles.length}</p>`;
-    }
-
-    let msg_body_files_images = document.createElement("div");
-    msg_body_files_images.classList.add("msg__container__body__files__images");
-    if (msgObject.files.dataImages.length > 0) {
-      msg_body_files_images.innerHTML = `<p>Imágenes:${msgObject.files.dataImages.length}</p>`;
-    }
-
-    let msg_actions = document.createElement("div");
-    msg_actions.classList.add("msg__actions");
-    msg_actions.innerHTML = 'reservado para acciones';
-
-    msg_header.appendChild(msg_header_user);
-    msg_header.appendChild(msg_header_date);
-
-    msg_body.appendChild(msg_body_text);
-    msg_body.appendChild(msg_body_files);
-    msg_body.appendChild(msg_body_files_images);
-
-    msg.appendChild(msg_header);
-    msg.appendChild(msg_body);
-    msg.appendChild(msg_actions);
-
-    ChatMessages.appendChild(msg);
-
-    // posiciona el scroll al final del chat 
-    ChatMessages.scrollTop = ChatMessages.scrollHeight;
-    textEditDivTextarea.innerHTML = '';
-    handleTextEdit();
   }
+
+  // let msg = document.createElement("div");
+  // msg.classList.add("msg__container");
+
+  // let msg_header = document.createElement("div");
+  // msg_header.classList.add("msg__container__header");
+
+  // let msg_header_user = document.createElement("h4");
+  // msg_header_user.classList.add("msg__container__header__user");
+  // msg_header_user.innerHTML = msgObject.user;
+
+  // let msg_header_date = document.createElement("span");
+  // msg_header_date.classList.add("msg__container__header__date");
+  // msg_header_date.innerHTML = msgObject.date;
+
+  // let msg_body = document.createElement("div");
+  // msg_body.classList.add("msg__container__body");
+
+  // let msg_body_text = document.createElement("div");
+  // msg_body_text.classList.add("msg__container__body__text");
+  // msg_body_text.innerHTML = msgObject.msg;
+
+  // let msg_body_files = document.createElement("div");
+  // msg_body_files.classList.add("msg__container__body__files");
+  // if (msgObject.files.dataFiles.length > 0) {
+  //   msg_body_files.innerHTML = `<p>Archivos:${msgObject.files.dataFiles.length}</p>`;
+  // }
+
+  // let msg_body_files_images = document.createElement("div");
+  // msg_body_files_images.classList.add("msg__container__body__files__images");
+  // if (msgObject.files.dataImages.length > 0) {
+  //   msg_body_files_images.innerHTML = `<p>Imágenes:${msgObject.files.dataImages.length}</p>`;
+  // }
+
+  // let msg_actions = document.createElement("div");
+  // msg_actions.classList.add("msg__actions");
+  // msg_actions.innerHTML = 'reservado para acciones';
+
+  // msg_header.appendChild(msg_header_user);
+  // msg_header.appendChild(msg_header_date);
+
+  // msg_body.appendChild(msg_body_text);
+  // msg_body.appendChild(msg_body_files);
+  // msg_body.appendChild(msg_body_files_images);
+
+  // msg.appendChild(msg_header);
+  // msg.appendChild(msg_body);
+  // msg.appendChild(msg_actions);
+
+  // ChatMessages.appendChild(msg);
 
   // añade el emoji al texto (¡pendiente!)
   const addEmoji = (emojiObj) => {
@@ -450,20 +505,22 @@ export const useTextEdit = () => {
   }
 
 
-  return {textEdits:{
-    isTextEdit,
-    handleTextEdit,
-    clickTextEdit,
-    formatText,
-    sendMessage,
-    addEmoji,
-    getCaretCharacterOffsetWithin,
-    handleMouseOver,
-    handleMouseOut,
-    controlKey,
-    openFile,
-    openImage,
-    previewFile,
-    previewImage
-  }};
+  return {
+    textEdits: {
+      isTextEdit,
+      handleTextEdit,
+      clickTextEdit,
+      formatText,
+      sendMessage,
+      addEmoji,
+      getCaretCharacterOffsetWithin,
+      handleMouseOver,
+      handleMouseOut,
+      controlKey,
+      openFile,
+      openImage,
+      previewFile,
+      previewImage
+    }
+  };
 }

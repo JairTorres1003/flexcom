@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Chat from '../../components/Chat/Chat';
 import Menu from '../../components/Menu/Menu';
 import ModalCheckList from '../../components/ModalCheckList/ModalCheckList';
@@ -9,11 +9,14 @@ import ModalScheduleMessage from '../../components/ModalScheduleMessage/ModalSch
 import './Home.css';
 
 export default function Home() {
+  // constante para la conversación actual
+  const [currentChat, setCurrentChat] = useState();
+
   return (
     <div className="Home">
-      <Menu />
+      <Menu setCurrentChat={setCurrentChat} />
       <div className="Home__chat">
-        <Chat />
+        <Chat currentChat={currentChat} />
       </div>
       <div className="Modals">
         <ModalCheckList />
