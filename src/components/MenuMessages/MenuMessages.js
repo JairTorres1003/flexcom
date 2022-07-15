@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
 import { BsCircleFill } from "react-icons/bs";
 import { IoAdd } from "react-icons/io5";
 import { AuthContext } from "../../context/authProvider";
+import { db } from "../../firebase/firebaseConfig";
 
 import "./MenuMessages.css";
 
@@ -11,6 +13,34 @@ export default function MenuMessages({ setCurrentChat }) {
     name: user.displayName,
     uid: user.uid
   }
+
+  const [usersMessages, setUsersMessages] = useState([]);
+
+
+  const getUsersMessages = async () => {
+    const messagesRef = collection(db, "messages");
+    const q = query(messagesRef);
+    const unsub = onSnapshot(q, querySnapshot => {
+      let usersMsg = [];
+      querySnapshot.forEach(doc => {
+        const userId = doc.data().id.replace(user.uid, "").replace("+", "");
+        const userRef = collection(db, "users");
+        const userQ = query(userRef, where("uid", "==", userId));
+        const userUnsub = onSnapshot(userQ, userQuerySnapshot => {
+          userQuerySnapshot.forEach(userDoc => {
+            usersMsg.push(userDoc.data());
+          });
+        });
+      });
+      setUsersMessages(usersMsg);
+      console.log(usersMessages);
+    });
+  }
+
+  useEffect(() => {
+    getUsersMessages();
+  }, []);
+
 
   return (
     <div className="MenuMessages">
@@ -27,16 +57,16 @@ export default function MenuMessages({ setCurrentChat }) {
       </div>
       <div className="MenuMessages__list">
         <ul className="MenuMessages__list-list">
-          {/* ↓ Ejemplo Eliminar despues ↓ */}
-          <li className="MenuMessages__list-message">
-            <BsCircleFill className="MenuMessages__list-message__icon" />
-            <p>Nombre usuario 1</p>
-          </li>
-          <li className="MenuMessages__list-message">
-            <BsCircleFill className="MenuMessages__list-message__icon" />
-            <p>Nombre usuario 2</p>
-          </li>
-          {/* ↑ Ejemplo Eliminar despues ↑ */}
+          {
+            usersMessages.map((userMsg, index) => {
+              return (
+                <li className="MenuMessages__list-list__item" key={index} onClick={() => setCurrentChat(userMsg)}>
+                  <BsCircleFill className="MenuMessages__list-message__icon" />
+                  <p>{userMsg.name}</p>
+                </li>
+              )
+            })
+          }
         </ul>
       </div>
     </div>

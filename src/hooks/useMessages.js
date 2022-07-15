@@ -27,11 +27,8 @@ export const useMessages = ({ currentChat }) => {
         let msgs = [];
         querySnapshot.forEach((doc) => {
           msgs.push(doc.data());
-          console.log(doc.data());
         });
-        console.log(msgs);
         setMessages(msgs);
-        console.log("messages:", messages);
       });
     }
   }

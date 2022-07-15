@@ -107,26 +107,117 @@ small.MessagesContainer__header__time {
   align-items: flex-start;
 }
 
+.container__attachments {
+  width: 100%;
+  height: max-content;
+  position: relative;
+}
+
 .MessagesContainer__body__attachments__image,
 .MessagesContainer__body__attachments__file {
   width: 100%;
   height: max-content;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.MessagesContainer__body__attachments__image::-webkit-scrollbar,
+.MessagesContainer__body__attachments__file::-webkit-scrollbar {
+  background: transparent;
+  height: 0px;
+}
+
+.MessagesContainer__body__attachments__image__container,
+.MessagesContainer__body__attachments__file__container {
+  width: max-content;
+  height: max-content;
   display: flex;
   flex-direction: row;
   align-content: flex-start;
-  flex-wrap: wrap;
   justify-content: flex-start;
+  gap: 5px;
+}
+
+.arrow__move {
+  background: rgba(174, 182, 212, 0.5);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #fff;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: bold;
+  box-shadow: 0px 0px 5px 1px #00000070;
+  border: none;
+  overflow: hidden;
+}
+
+.arrow__move::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.arrow__move:hover {
+  background: rgba(174, 182, 212, 0.8);
+}
+
+.arrow__move.--left {
+  left: 5px;
+}
+
+.arrow__move.--Right {
+  right: 5px;
+}
+
+.arrow__move.--active {
+  display: flex;
 }
 
 .MessagesContainer__body__attachments__image img {
   height: 70px;
-  padding-right: 5px;
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
 }
 
-.MessagesContainer__footer {}
+.MessagesContainer__footer {
+  height: max-content;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: flex-start;
+}
+
+.MessagesContainer__footer__replyButton {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  color: rgb(7, 10, 16);
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.MessagesContainer__footer__replyButton:hover {
+  background-color: rgb(255 255 255 / 10%);
+}
 
 .MessagesContainer__actions {
   position: absolute;
@@ -140,7 +231,7 @@ small.MessagesContainer__header__time {
   justify-content: center;
   align-content: center;
   flex-direction: row;
-  gap: 7px;
+  gap: 8px;
   padding: 5px;
   border: 1px solid #e7e7e7;
   border-radius: 4px;
@@ -149,4 +240,17 @@ small.MessagesContainer__header__time {
 
 .MessagesContainer:hover .MessagesContainer__actions {
   display: flex;
+}
+
+button.MessagesContainer__actions__button {
+  border: none;
+  background-color: transparent;
+  color: rgba(20, 30, 48, 0.7);
+  cursor: pointer;
+  font-size: 17px;
+}
+
+button.MessagesContainer__actions__button:hover {
+  color: rgb(20, 30, 48);
+  transform: scale(1.1);
 }

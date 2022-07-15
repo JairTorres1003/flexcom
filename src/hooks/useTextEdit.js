@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 /* eslint-disable no-restricted-globals */
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authProvider';
@@ -111,6 +111,10 @@ export const useTextEdit = ({ currentChat }) => {
             files: urlFile,
             reply: false
           })
+
+          await setDoc(doc(db, 'messages/' + chatId), {
+            id: chatId
+          });
         }
         handleSendMessage();
   
@@ -128,56 +132,6 @@ export const useTextEdit = ({ currentChat }) => {
       }
     }
   }
-
-  // let msg = document.createElement("div");
-  // msg.classList.add("msg__container");
-
-  // let msg_header = document.createElement("div");
-  // msg_header.classList.add("msg__container__header");
-
-  // let msg_header_user = document.createElement("h4");
-  // msg_header_user.classList.add("msg__container__header__user");
-  // msg_header_user.innerHTML = msgObject.user;
-
-  // let msg_header_date = document.createElement("span");
-  // msg_header_date.classList.add("msg__container__header__date");
-  // msg_header_date.innerHTML = msgObject.date;
-
-  // let msg_body = document.createElement("div");
-  // msg_body.classList.add("msg__container__body");
-
-  // let msg_body_text = document.createElement("div");
-  // msg_body_text.classList.add("msg__container__body__text");
-  // msg_body_text.innerHTML = msgObject.msg;
-
-  // let msg_body_files = document.createElement("div");
-  // msg_body_files.classList.add("msg__container__body__files");
-  // if (msgObject.files.dataFiles.length > 0) {
-  //   msg_body_files.innerHTML = `<p>Archivos:${msgObject.files.dataFiles.length}</p>`;
-  // }
-
-  // let msg_body_files_images = document.createElement("div");
-  // msg_body_files_images.classList.add("msg__container__body__files__images");
-  // if (msgObject.files.dataImages.length > 0) {
-  //   msg_body_files_images.innerHTML = `<p>Imágenes:${msgObject.files.dataImages.length}</p>`;
-  // }
-
-  // let msg_actions = document.createElement("div");
-  // msg_actions.classList.add("msg__actions");
-  // msg_actions.innerHTML = 'reservado para acciones';
-
-  // msg_header.appendChild(msg_header_user);
-  // msg_header.appendChild(msg_header_date);
-
-  // msg_body.appendChild(msg_body_text);
-  // msg_body.appendChild(msg_body_files);
-  // msg_body.appendChild(msg_body_files_images);
-
-  // msg.appendChild(msg_header);
-  // msg.appendChild(msg_body);
-  // msg.appendChild(msg_actions);
-
-  // ChatMessages.appendChild(msg);
 
   // añade el emoji al texto (¡pendiente!)
   const addEmoji = (emojiObj) => {
