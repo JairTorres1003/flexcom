@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 
 export const useCreateChannel = () => {
@@ -58,7 +58,7 @@ export const useCreateChannel = () => {
         visibility: visibility_channel.checked ? 'private' : 'public',
         members: members,
         admin: name_user.innerHTML,
-        created: new Date().toLocaleString()
+        created: Timestamp.fromDate(new Date())
       }
 
       const create = async () => {

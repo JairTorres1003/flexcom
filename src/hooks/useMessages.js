@@ -8,17 +8,21 @@ export const useMessages = ({ currentChat }) => {
   const { user } = useContext(AuthContext);
 
   const getMessages = async () => {
-    let userOne = 0;
+    let userOne = user.uid;
     let userTwo = 0;
     let chatId = 0;
 
     if (currentChat) {
       if (currentChat.hasOwnProperty('visibility')) {
         chatId = currentChat.id;
+        userTwo = currentChat.id;
       } else {
-        userOne = user.uid;
         userTwo = currentChat.uid;
-        chatId = userOne > userTwo ? `${userOne}+${userTwo}` : `${userTwo}+${userOne}`
+        if (userOne !== userTwo) {
+          chatId = userOne > userTwo ? `${userOne}+${userTwo}` : `${userTwo}+${userOne}`
+        } else {
+          chatId = userOne;
+        }
       }
       const msgRef = collection(db, "messages", chatId, "chat");
       const q = query(msgRef, orderBy("createdAt", "asc"));

@@ -1,5 +1,6 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useEffect } from "react";
 import Moment from "react-moment";
+import { HiDownload } from "react-icons/hi";
 import { BsEmojiSmile } from "react-icons/bs";
 import {
   IoChevronBackOutline,
@@ -11,68 +12,10 @@ import {
 } from "react-icons/io5";
 
 import "./MessagesContainer.css";
+import { useMessagesContainer } from "../../hooks/useMessagesContainer";
 
 export default function MessagesContainer({ msg }) {
-  const componentRef = createRef();
-  useEffect(() => {
-    let width = componentRef.current.offsetWidth;
-    let widthChild = componentRef.current.children[0].offsetWidth;
-    if (widthChild > width) {
-      componentRef.current.parentElement.children[2].classList.add("--active");
-    }
-
-    const ChatMessages = document.getElementsByClassName("Chat__messages")[0];
-    let resizeObserver = new ResizeObserver(() => {
-      const fatherImg = document.getElementsByClassName("MessagesContainer__body__attachments__image");
-      const fatherFile = document.getElementsByClassName("MessagesContainer__body__attachments__file");
-
-      for (let i = 0; i < fatherImg.length; i++) {
-        let Fw = fatherImg[i].offsetWidth;
-        let Cw = fatherImg[i].children[0].offsetWidth;
-        if (Cw > Fw) {
-          fatherImg[i].parentElement.children[2].classList.add("--active");
-        } else {
-          fatherImg[i].parentElement.children[2].classList.remove("--active");
-          fatherImg[i].parentElement.children[1].classList.remove("--active");
-        }
-      }
-
-      for (let i = 0; i < fatherFile.length; i++) {
-        let Fw = fatherFile[i].offsetWidth;
-        let Cw = fatherFile[i].children[0].offsetWidth;
-        if (Cw > Fw) {
-          fatherFile[i].parentElement.children[2].classList.add("--active");
-        } else {
-          fatherFile[i].parentElement.children[2].classList.remove("--active");
-          fatherFile[i].parentElement.children[1].classList.remove("--active");
-        }
-      }
-    })
-    resizeObserver.observe(ChatMessages);
-  }, [componentRef]);
-
-  const handleMoveRight = (e) => {
-    let divFather = e.target.parentElement;
-    let widthScroll = divFather.children[0].scrollWidth - divFather.children[0].offsetWidth;
-
-    divFather.children[0].scrollLeft += 100;
-    divFather.children[1].classList.add("--active");
-
-    if (divFather.children[0].scrollLeft === widthScroll) {
-      divFather.children[2].classList.remove("--active");
-    }
-  }
-
-  const handleMoveLeft = (e) => {
-    let divFather = e.target.parentElement;
-
-    divFather.children[0].scrollLeft -= 100;
-    divFather.children[2].classList.add("--active");
-    
-    if (divFather.children[0].scrollLeft === 0) {
-      divFather.children[1].classList.remove("--active");
-    }
-  }
+  const { msgContainer, handleMoveRight, handleMoveLeft, downloadAttachment } = useMessagesContainer();
 
   return (
     <div className="MessagesContainer">
@@ -86,10 +29,15 @@ export default function MessagesContainer({ msg }) {
         <div className="MessagesContainer__body__text" dangerouslySetInnerHTML={{ __html: msg.message }}></div>
         <div className="MessagesContainer__body__attachments">
           <div className="container__attachments">
-            <div className="MessagesContainer__body__attachments__image" ref={componentRef}>
+            <div className="MessagesContainer__body__attachments__image">
               <div className="MessagesContainer__body__attachments__image__container">
                 {
-                  msg.media ? msg.media.map((media) => <img src={media} alt="attachment" />) : null
+                  msg.media ? msg.media.map((media) => {
+                    let nameImg = media.split('-NM%3D')[1].split('?alt')[0];
+                    return (
+                      <img src={media} alt="media" title={nameImg} />
+                    )
+                  }) : null
                 }
               </div>
             </div>
@@ -100,7 +48,22 @@ export default function MessagesContainer({ msg }) {
             <div className="MessagesContainer__body__attachments__file">
               <div className="MessagesContainer__body__attachments__file__container">
                 {
-                  msg.files ? msg.files.map((file) => <a href={file} download>{file}</a>) : null
+                  msg.files ? msg.files.map((file) => {
+                    let nameFile = file.split('-NM%3D')[1].split('?alt')[0];
+                    let extension = nameFile.substring(nameFile.length - 5, nameFile.length).split(".")[1]
+                    return (
+                      <button className="FilesContainerPreview__chat" onClick={() => downloadAttachment(file, nameFile)} title={nameFile}>
+                        <div className="FilesContainerPreview__chat__icon">
+                          <HiDownload />
+                        </div>
+                        <label className="FilesContainerPreview__chat__name">
+                          {
+                            nameFile.length > 10 ? nameFile.substring(0, 10) + "..." + extension : nameFile
+                          }
+                        </label>
+                      </button>
+                    )
+                  }) : null
                 }
               </div>
             </div>

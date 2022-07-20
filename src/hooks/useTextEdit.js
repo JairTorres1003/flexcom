@@ -65,44 +65,53 @@ export const useTextEdit = ({ currentChat }) => {
     let textEditImagePreview = document.getElementsByClassName("TextEdit__container__files__image__preview")[0];
 
     if (textEditDivTextarea.innerText.trim() !== "" || isTextEdit.dataFiles.length > 0 || isTextEdit.dataImages.length > 0) {
-      let userOne = 0;
+      let userOne = user.uid;
       let userTwo = 0;
       let chatId = 0;
+      let message = "";
+
+      if (textEditDivTextarea.innerText.trim() !== "") {
+        message = textEditDivTextarea.innerHTML;
+      } 
 
       if (currentChat) {
         if (currentChat.hasOwnProperty("visibility")) {
           chatId = currentChat.id;
+          userTwo = currentChat.id;
         } else {
-          userOne = user.uid;
           userTwo = currentChat.uid;
-          chatId = userOne > userTwo ? `${userOne}+${userTwo}` : `${userTwo}+${userOne}`
+          if (userOne !== userTwo) {
+            chatId = userOne > userTwo ? `${userOne}+${userTwo}` : `${userTwo}+${userOne}`
+          } else {
+            chatId = userOne;
+          }
         }
         const handleSendMessage = async () => {
           let urlImg = [];
           let urlFile = [];
-  
+
           if (isTextEdit.dataImages.length > 0) {
             for (let i = 0; i < isTextEdit.dataImages.length; i++) {
               const image = isTextEdit.dataImages[i];
-              const imageRef = ref(storage, `chats/images/${new Date().getTime()}-${image.name}`);
+              const imageRef = ref(storage, `chats/${chatId}/images/${new Date().getTime()}-NM=${image.name}`);
               const snap = await uploadBytes(imageRef, image);
               const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
               urlImg.push(dlUrl);
             }
           }
-  
+
           if (isTextEdit.dataFiles.length > 0) {
             for (let i = 0; i < isTextEdit.dataFiles.length; i++) {
               const file = isTextEdit.dataFiles[i];
-              const fileRef = ref(storage, `chats/files/${new Date().getTime()}-${file.name}`);
+              const fileRef = ref(storage, `chats/${chatId}/files/${new Date().getTime()}-NM=${file.name}`);
               const snap = await uploadBytes(fileRef, file);
               const dlUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
               urlFile.push(dlUrl);
             }
           }
-  
+
           await addDoc(collection(db, 'messages', chatId, 'chat'), {
-            message: textEditDivTextarea.innerText.trim() === "" ? "" : textEditDivTextarea.innerHTML,
+            message: message,
             nameFrom: user.displayName,
             from: userOne,
             to: userTwo,
@@ -117,8 +126,7 @@ export const useTextEdit = ({ currentChat }) => {
           });
         }
         handleSendMessage();
-  
-  
+
         ChatMessages.scrollTop = ChatMessages.scrollHeight;
         textEditDivTextarea.innerHTML = '';
         textEditFilePreview.innerHTML = '';
