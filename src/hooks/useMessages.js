@@ -33,6 +33,7 @@ export const useMessages = ({ currentChat }) => {
           msgs.push(doc.data());
         });
         setMessages(msgs);
+        console.log(msgs);
       });
     }
   }

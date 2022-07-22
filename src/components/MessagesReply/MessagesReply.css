@@ -1,4 +1,4 @@
-.MessagesContainer {
+.MessagesReply {
   background: rgb(255 255 255 / 10%);
   width: 100%;
   height: max-content;
@@ -15,11 +15,11 @@
   transition: .2s;
 }
 
-.MessagesContainer:hover {
+.MessagesReply:hover {
   background: rgb(255 255 255 / 20%);
 }
 
-.MessagesContainer__header {
+.MessagesReply__header {
   width: 100%;
   height: 12px;
   border: none;
@@ -32,19 +32,25 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h4.MessagesContainer__header__name {
+h4.MessagesReply__header__name {
   font-size: 13px;
-  color: rgb(7, 10, 16);
+  color: #fff;
   font-weight: bold;
 }
 
-small.MessagesContainer__header__time {
+small.MessagesReply__header__time {
   font-size: 10px;
   font-weight: normal;
-  color: rgb(7 10 16 / 60%);
+  color: rgb(255 255 255 / 60%);
 }
 
-.MessagesContainer__body {
+small.MessagesReply__header__time>.MessagesReply__header__time__tm {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.MessagesReply__body {
   display: flex;
   width: 100%;
   height: max-content;
@@ -55,9 +61,9 @@ small.MessagesContainer__header__time {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.MessagesContainer__body__text {
+.MessagesReply__body__text {
   font-size: 13px;
-  color: rgb(7, 10, 16);
+  color: #fff;
   width: 100%;
   line-height: 14px;
   height: max-content;
@@ -65,39 +71,39 @@ small.MessagesContainer__header__time {
   overflow: hidden;
 }
 
-.MessagesContainer__body__text b {
+.MessagesReply__body__text b {
   font-weight: bold;
 }
 
-.MessagesContainer__body__text i {
+.MessagesReply__body__text i {
   font-style: italic;
 }
 
-.MessagesContainer__body__text u {
+.MessagesReply__body__text u {
   text-decoration: underline;
 }
 
-.MessagesContainer__body__text strike {
+.MessagesReply__body__text strike {
   text-decoration: line-through;
 }
 
-.MessagesContainer__body__text ul {
+.MessagesReply__body__text ul {
   padding-left: 22px;
   text-indent: 1px;
   list-style: unset;
 }
 
-.MessagesContainer__body__text ol {
+.MessagesReply__body__text ol {
   padding-left: 20px;
   text-indent: 3px;
   list-style: reversed;
 }
 
-.MessagesContainer__body__text a {
+.MessagesReply__body__text a {
   cursor: pointer;
 }
 
-.MessagesContainer__body__attachments {
+.MessagesReply__body__attachments {
   display: flex;
   width: 100%;
   height: max-content;
@@ -107,28 +113,28 @@ small.MessagesContainer__header__time {
   align-items: flex-start;
 }
 
-.container__attachments {
+.Reply__attachments {
   width: 100%;
   height: max-content;
   position: relative;
 }
 
-.MessagesContainer__body__attachments__image,
-.MessagesContainer__body__attachments__file {
+.MessagesReply__body__attachments__image,
+.MessagesReply__body__attachments__file {
   width: 100%;
   height: max-content;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-.MessagesContainer__body__attachments__image::-webkit-scrollbar,
-.MessagesContainer__body__attachments__file::-webkit-scrollbar {
+.MessagesReply__body__attachments__image::-webkit-scrollbar,
+.MessagesReply__body__attachments__file::-webkit-scrollbar {
   background: transparent;
   height: 0px;
 }
 
-.MessagesContainer__body__attachments__image__container,
-.MessagesContainer__body__attachments__file__container {
+.MessagesReply__body__attachments__image__container,
+.MessagesReply__body__attachments__file__container {
   width: max-content;
   height: max-content;
   display: flex;
@@ -187,7 +193,7 @@ small.MessagesContainer__header__time {
   display: flex;
 }
 
-.MessagesContainer__body__attachments__image img {
+.MessagesReply__body__attachments__image img {
   height: 70px;
   border-radius: 4px;
   overflow: hidden;
@@ -195,7 +201,7 @@ small.MessagesContainer__header__time {
   margin-top: 8px;
 }
 
-button.FilesContainerPreview__chat {
+button.FilesReplyPreview__chat {
   border: 1px solid #141E30;
   border-radius: 4px;
   margin-top: 8px;
@@ -212,7 +218,7 @@ button.FilesContainerPreview__chat {
   background: #91b7d7;
 }
 
-.FilesContainerPreview__chat__icon {
+.FilesReplyPreview__chat__icon {
   height: 100%;
   width: 30px;
   background-color: #ccdfe9;
@@ -229,7 +235,7 @@ button.FilesContainerPreview__chat {
   color: #141E30;
 }
 
-label.FilesContainerPreview__chat__name {
+label.FilesReplyPreview__chat__name {
   width: 100%;
   height: 100%;
   text-align: center;
@@ -243,32 +249,7 @@ label.FilesContainerPreview__chat__name {
   cursor: pointer;
 }
 
-.MessagesContainer__footer {
-  height: max-content;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: flex-start;
-}
-
-.MessagesContainer__footer__replyButton {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  font-size: 12px;
-  color: rgb(7, 10, 16);
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.MessagesContainer__footer__replyButton:hover {
-  background-color: rgb(255 255 255 / 10%);
-}
-
-.MessagesContainer__actions {
+.MessagesReply__actions {
   position: absolute;
   top: -15px;
   right: 5px;
@@ -287,11 +268,11 @@ label.FilesContainerPreview__chat__name {
   box-shadow: 2px 2px 2px 0px #0000008f;
 }
 
-.MessagesContainer:hover .MessagesContainer__actions {
+.MessagesReply:hover .MessagesReply__actions {
   display: flex;
 }
 
-button.MessagesContainer__actions__button {
+button.MessagesReply__actions__button {
   border: none;
   background-color: transparent;
   color: rgba(20, 30, 48, 0.7);
@@ -299,22 +280,7 @@ button.MessagesContainer__actions__button {
   font-size: 17px;
 }
 
-button.MessagesContainer__actions__button:hover {
+button.MessagesReply__actions__button:hover {
   color: rgb(20, 30, 48);
   transform: scale(1.1);
-}
-
-.MessagesContainer.create {
-  justify-content: center;
-  align-items: center;
-}
-
-.MessagesContainer.create .MessagesContainer__header {
-  text-align: center;
-  width: max-content;
-}
-
-.MessagesContainer.create .MessagesContainer__header>h4 {
-  display: flex;
-  gap: 5px;
 }

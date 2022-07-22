@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 /* eslint-disable no-restricted-globals */
-import { addDoc, collection, doc, setDoc, Timestamp } from 'firebase/firestore';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authProvider';
@@ -63,6 +63,7 @@ export const useTextEdit = ({ currentChat }) => {
     let ChatMessages = document.getElementsByClassName("Chat__messages")[0];
     let textEditFilePreview = document.getElementsByClassName("TextEdit__container__files__file__preview")[0];
     let textEditImagePreview = document.getElementsByClassName("TextEdit__container__files__image__preview")[0];
+    const ChatReply = document.getElementsByClassName("Chat__reply")[0];
 
     if (textEditDivTextarea.innerText.trim() !== "" || isTextEdit.dataFiles.length > 0 || isTextEdit.dataImages.length > 0) {
       let userOne = user.uid;
@@ -110,16 +111,32 @@ export const useTextEdit = ({ currentChat }) => {
             }
           }
 
-          await addDoc(collection(db, 'messages', chatId, 'chat'), {
-            message: message,
-            nameFrom: user.displayName,
-            from: userOne,
-            to: userTwo,
-            createdAt: Timestamp.fromDate(new Date()),
-            media: urlImg,
-            files: urlFile,
-            reply: false
-          })
+          if (ChatReply.classList.contains("--replyActive")) {
+            let idMsg = document.getElementsByClassName("MessagesReply__header__time__tm")[0].innerHTML;
+            let id = "rp" + new Date().getTime();
+            await setDoc(doc(db, 'messages', chatId, 'chat', idMsg, 'reply', id), {
+              message: message,
+              nameFrom: user.displayName,
+              from: userOne,
+              to: userTwo,
+              createdAt: Timestamp.fromDate(new Date()),
+              media: urlImg,
+              files: urlFile,
+              id: id
+            });
+          } else {
+            let id = "msg" + new Date().getTime();
+            await setDoc(doc(db, 'messages', chatId, 'chat', id), {
+              message: message,
+              nameFrom: user.displayName,
+              from: userOne,
+              to: userTwo,
+              createdAt: Timestamp.fromDate(new Date()),
+              media: urlImg,
+              files: urlFile,
+              id: id
+            });
+          }
 
           await setDoc(doc(db, 'messages/' + chatId), {
             id: chatId

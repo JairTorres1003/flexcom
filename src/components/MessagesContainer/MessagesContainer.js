@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React from "react";
 import Moment from "react-moment";
 import { HiDownload } from "react-icons/hi";
 import { BsEmojiSmile } from "react-icons/bs";
@@ -14,9 +14,27 @@ import {
 import "./MessagesContainer.css";
 import { useMessagesContainer } from "../../hooks/useMessagesContainer";
 
-export default function MessagesContainer({ msg }) {
-  const { msgContainer, handleMoveRight, handleMoveLeft, downloadAttachment } = useMessagesContainer();
+export default function MessagesContainer({ msg, setMsgReply }) {
+  const { 
+    msgContainer, 
+    handleMoveRight, 
+    handleMoveLeft, 
+    downloadAttachment, 
+    handleReply
+  } = useMessagesContainer();
 
+  if (!msg.hasOwnProperty("message")) {
+    return (
+      <div className="MessagesContainer create">
+        <div className="MessagesContainer__header">
+          <h4 className="MessagesContainer__header__name">
+            Canal creado por {msg.nameFrom} el 
+            <Moment fromNow format="DD/MM/YYYY HH:mm">{msg.createdAt.toDate()}</Moment>
+            </h4>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="MessagesContainer">
       <div className="MessagesContainer__header">
@@ -79,7 +97,10 @@ export default function MessagesContainer({ msg }) {
         </button>
       </div>
       <div className="MessagesContainer__actions">
-        <button className="MessagesContainer__actions__button">
+        <button className="MessagesContainer__actions__button" onClick={() => {
+          setMsgReply(msg);
+          handleReply();
+        }}>
           <IoArrowUndo />
         </button>
         <button className="MessagesContainer__actions__button">

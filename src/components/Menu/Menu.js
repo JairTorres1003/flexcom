@@ -91,6 +91,9 @@ const useMenu = ({ setCurrentChat }) => {
     let menuCotent = document.getElementById("menu-content");
     let buttons = document.getElementsByClassName("Menu__Buttons__options__list__item__button");
     let typeMenu = '';
+    let ChatReply = document.getElementsByClassName("Chat__reply")[0];
+    ChatReply.classList.remove("--replyActive");
+
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].classList.remove("_active");
     }

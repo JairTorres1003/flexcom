@@ -1,7 +1,5 @@
 import axios from "axios";
-import { getDownloadURL, ref } from "firebase/storage";
 import { useState } from "react";
-import { storage } from "../firebase/firebaseConfig";
 
 export const useMessagesContainer = () => {
   const [msgContainer, setMsgContainer] = useState(null);
@@ -38,41 +36,24 @@ export const useMessagesContainer = () => {
   const handleMoveRight = (e) => {
     let divFather = e.target.parentElement;
     let widthScroll = divFather.children[0].scrollWidth - divFather.children[0].offsetWidth;
-    let move = 0;
 
-    let interval = setInterval(() => {
-      move += 10;
-      divFather.children[0].scrollLeft += move;
-      divFather.children[1].classList.add("--active");
+    divFather.children[0].scrollLeft += 100;
+    divFather.children[1].classList.add("--active");
 
-      if (move === 100) {
-        clearInterval(interval);
-      }
-
-      if (divFather.children[0].scrollLeft === widthScroll) {
-        divFather.children[2].classList.remove("--active");
-        clearInterval(interval);
-      }
-    }, 10);
+    if (divFather.children[0].scrollLeft === widthScroll) {
+      divFather.children[2].classList.remove("--active");
+    }
   }
 
   const handleMoveLeft = (e) => {
     let divFather = e.target.parentElement;
-    let move = 100;
-    let interval = setInterval(() => {
-      move -= 10;
-      divFather.children[0].scrollLeft -= move;
-      divFather.children[2].classList.add("--active");
 
-      if (move === 0) {
-        clearInterval(interval);
-      }
+    divFather.children[0].scrollLeft -= 100;
+    divFather.children[2].classList.add("--active");
 
-      if (divFather.children[0].scrollLeft === 0) {
-        divFather.children[1].classList.remove("--active");
-        clearInterval(interval);
-      }
-    }, 10);
+    if (divFather.children[0].scrollLeft === 0) {
+      divFather.children[1].classList.remove("--active");
+    }
   }
 
   const downloadAttachment = (urlFile, nameFile) => {
@@ -91,5 +72,11 @@ export const useMessagesContainer = () => {
     });
   }
 
-  return { msgContainer, handleMoveRight, handleMoveLeft, downloadAttachment };
+  const handleReply = (e) => {
+    document.getElementsByClassName('Menu__Content__close')[0].click();
+    const ChatReply = document.getElementsByClassName("Chat__reply")[0];
+    ChatReply.classList.add("--replyActive");
+  }
+
+  return { msgContainer, handleMoveRight, handleMoveLeft, downloadAttachment, handleReply };
 }

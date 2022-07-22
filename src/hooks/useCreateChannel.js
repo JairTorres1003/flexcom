@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
+import { AuthContext } from '../context/authProvider';
 
 export const useCreateChannel = () => {
   const [isCreate, setIsCreate] = useState({
     visibility: 'El canal es visible para todos, cualquier usuario puede unirse.',
   });
+  const { user } = useContext(AuthContext);
+
 
   const KeyUpNameChannel = (e) => {
     let name_channel = document.getElementById('name-channel');
@@ -35,7 +38,6 @@ export const useCreateChannel = () => {
     let description_channel = document.getElementById('description-channel');
     let visibility_channel = document.getElementById('visibility-channel');
     let invite_channel = document.getElementById('invite-channel');
-    let name_user = document.getElementById('name-user');
 
     nameVal = valueNameChannel(nameVal);
     name_channel.value = nameVal;
@@ -50,23 +52,35 @@ export const useCreateChannel = () => {
       if (descriptionVal.length === 0) {
         descriptionVal = 'Canal de ' + nameVal;
       }
-      let members = [name_user.innerHTML];
+      let members = [user.uid];
       let dataChannel = {
-        id: new Date().getTime(),
+        id: nameVal + new Date().getTime() + (visibility_channel.checked ? 'private' : 'public'),
         name: nameVal,
         description: descriptionVal,
         visibility: visibility_channel.checked ? 'private' : 'public',
         members: members,
-        admin: name_user.innerHTML,
-        created: Timestamp.fromDate(new Date())
+        admin: user.uid,
+        createdAt: Timestamp.fromDate(new Date())
       }
 
       const create = async () => {
-        await setDoc(doc(db, 'channels/' + nameVal), dataChannel);
-      }
+        await setDoc(doc(db, 'channels/' + dataChannel.id), dataChannel);
 
+        let id = "msg" + new Date().getTime();
+        await setDoc(doc(db, 'messages', dataChannel.id, 'chat', id), {
+          nameFrom: user.displayName,
+          from: user.uid,
+          to: dataChannel.id,
+          createdAt: Timestamp.fromDate(new Date()),
+          id: id
+        });
+
+        await setDoc(doc(db, 'messages/' + dataChannel.id), {
+          id: dataChannel.id
+        });
+      }
       create();
-        
+
       name_channel.value = '';
       description_channel.value = '';
       visibility_channel.checked = false;
