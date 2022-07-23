@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 /* eslint-disable no-restricted-globals */
-import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authProvider';
@@ -73,7 +73,7 @@ export const useTextEdit = ({ currentChat }) => {
 
       if (textEditDivTextarea.innerText.trim() !== "") {
         message = textEditDivTextarea.innerHTML;
-      } 
+      }
 
       if (currentChat) {
         if (currentChat.hasOwnProperty("visibility")) {
@@ -114,16 +114,26 @@ export const useTextEdit = ({ currentChat }) => {
           if (ChatReply.classList.contains("--replyActive")) {
             let idMsg = document.getElementsByClassName("MessagesReply__header__time__tm")[0].innerHTML;
             let id = "rp" + new Date().getTime();
-            await setDoc(doc(db, 'messages', chatId, 'chat', idMsg, 'reply', id), {
-              message: message,
-              nameFrom: user.displayName,
-              from: userOne,
-              to: userTwo,
-              createdAt: Timestamp.fromDate(new Date()),
-              media: urlImg,
-              files: urlFile,
-              id: id
-            });
+            let refMsg = doc(db, `messages/${chatId}/chat/${idMsg}`);
+
+            const docSnap = await getDoc(refMsg);
+
+            if (docSnap.exists()) {
+              await updateDoc(refMsg, {
+                reply: docSnap.data().reply + 1
+              });
+
+              await setDoc(doc(db, 'messages', chatId, 'chat', idMsg, 'reply', id), {
+                message: message,
+                nameFrom: user.displayName,
+                from: userOne,
+                to: userTwo,
+                createdAt: Timestamp.fromDate(new Date()),
+                media: urlImg,
+                files: urlFile,
+                id: id
+              });
+            }
           } else {
             let id = "msg" + new Date().getTime();
             await setDoc(doc(db, 'messages', chatId, 'chat', id), {
@@ -134,6 +144,7 @@ export const useTextEdit = ({ currentChat }) => {
               createdAt: Timestamp.fromDate(new Date()),
               media: urlImg,
               files: urlFile,
+              reply: 0,
               id: id
             });
           }

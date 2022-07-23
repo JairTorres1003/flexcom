@@ -9,8 +9,8 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import "./Chat.css";
 
 export default function Chat({ currentChat }) {
-  const { messages } = useMessages({ currentChat });
-  const [msgReply, setMsgReply] = useState(null);
+  const { messages, msgReplys, getMsgReplys } = useMessages({ currentChat });
+  const [ msgReply, setMsgReply ] = useState(null);
 
   const closeReply = () => {
     setMsgReply(null);
@@ -30,6 +30,7 @@ export default function Chat({ currentChat }) {
                 key={index}
                 msg={msg}
                 setMsgReply={setMsgReply}
+                getMsgReplys={getMsgReplys}
               />
             }) : null
           }
@@ -46,6 +47,14 @@ export default function Chat({ currentChat }) {
             </div>
             <div className="container__replys__messages">
               <div className="Chat_topHeight"></div>
+              {
+                msgReplys ? msgReplys.map((msg, index) => {
+                  return <MessagesReply 
+                    key={index}
+                    msg={msg}
+                  />
+                }): null
+              }
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ import {
 import "./MessagesContainer.css";
 import { useMessagesContainer } from "../../hooks/useMessagesContainer";
 
-export default function MessagesContainer({ msg, setMsgReply }) {
+export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
   const { 
     msgContainer, 
     handleMoveRight, 
@@ -91,15 +91,22 @@ export default function MessagesContainer({ msg, setMsgReply }) {
         </div>
       </div>
       <div className="MessagesContainer__footer">
-        <button className="MessagesContainer__footer__replyButton">
-          {msg.isReply ? <IoArrowUndo /> : null}
-          {msg.isReply ? `Respuesta: ${msg.replyMsg}` : null}
-        </button>
+        {
+          msg.reply > 0 ? <button className="MessagesContainer__footer__replyButton" onClick={() => {
+            setMsgReply(msg);
+            handleReply();
+            getMsgReplys(msg.id);
+          }}>
+            <IoArrowUndo />
+            Respuestas: {msg.reply}
+          </button> : null
+        }
       </div>
       <div className="MessagesContainer__actions">
         <button className="MessagesContainer__actions__button" onClick={() => {
           setMsgReply(msg);
           handleReply();
+          getMsgReplys(msg.id);
         }}>
           <IoArrowUndo />
         </button>
