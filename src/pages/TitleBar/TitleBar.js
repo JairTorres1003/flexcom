@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { VscChromeMinimize, VscChromeMaximize, VscChromeRestore, VscChromeClose } from "react-icons/vsc";
@@ -8,14 +9,14 @@ export default function TitleBar() {
   const [isMaximizeRestore, setIsMaximizeRestore] = useState(false);
 
   const minimizeButton = () => {
-    // optionsWin.optionApi.sendOption("minimize");
+    app.window.minimize();
   }
   const maximizeRestore = () => {
     setIsMaximizeRestore(!isMaximizeRestore);
-    // optionsWin.optionApi.sendOption("maximizeRestore");
+    app.window.maximize_restore();
   }
   const closeButton = () => {
-    // optionsWin.optionApi.sendOption("close");
+    app.window.close();
   }
 
   return (

@@ -5,13 +5,11 @@ Pasos para ejecutar el proyecto...
  <code>npm install</code>
  2. comentar si la ejecucion es para web de lo contrario descomentar
  
-    - TitleBar linea 11
+    - TitleBar linea 14 y 21
     <code>src\App.js</code>
-    - lineas 11, 15 y 18
-    <code>src\pages\TitleBar\TitleBar.js</code>
     - opcional
-      - Estilos de border linea 11
-      <code>src\styles\global.css</code>
+      - Estilos de border linea 9
+      <code>src\pages\TitleBar\TitleBar.css</code>
       - Estilos de border linea 23
       <code>src\components\Menu\Menu.css</code>
       - Estilos de border lineas 10 y 23

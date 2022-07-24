@@ -11,14 +11,14 @@ import PrivateRoute from "./context/PrivateRoute";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-// import TitleBar from "./pages/TitleBar/TitleBar";
+import TitleBar from "./pages/TitleBar/TitleBar";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="App">
-          {/* <TitleBar /> */}
+          <TitleBar />
           <main className="App__body">
             <Routes>
               <Route path="/" element={<PrivateRoute component={Home} />} />

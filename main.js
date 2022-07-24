@@ -9,6 +9,7 @@ function createWindow() {
     minHeight: 700,
     resizable: true,
     title: 'Flexcom',
+    autoHideMenuBar: true,
     frame: false,
     webPreferences: {
       nodeIntegration: false,
@@ -19,17 +20,17 @@ function createWindow() {
   });
   mainWin.setMenu(null);
   mainWin.loadURL('http://localhost:3000');
-  mainWin.setBackgroundColor('#2c5364');
+  mainWin.setBackgroundColor('#141E30');
 
-  mainWin.webContents.openDevTools(); // open devTools
+  // mainWin.webContents.openDevTools(); // open devTools
 
-  ipcMain.on('closeApp', () => {
+  ipcMain.on("app/close", () => {
     mainWin.close();
   });
-  ipcMain.on('minimizeApp', () => {
+  ipcMain.on("app/minimize", () => {
     mainWin.minimize();
   });
-  ipcMain.on('maximizeRestoreApp', () => {
+  ipcMain.on("app/maximize_restore", () => {
     if (mainWin.isMaximized()) {
       mainWin.unmaximize();
     } else {
@@ -40,13 +41,6 @@ function createWindow() {
 
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-});
-
-ipcMain.on('notify', (_, message) => {
-  new Notification({
-    title: 'Flexcom',
-    body: message
-  }).show();
 });
 
 app.whenReady().then(() => {
