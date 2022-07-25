@@ -6,11 +6,11 @@ import { auth, db } from "../../firebase/firebaseConfig";
 import "./MenuUsers.css";
 import { User } from "../User/User";
 
-export default function MenuUsers({ setCurrentChat }) {
+export default function MenuUsers({ setCurrentChat, updateLastConversation }) {
   const { users, isOpenUsers, deployUsers } = useUsers();
 
   return (
-    <div className="MenuUsers">
+    <div className="MenuUsers _panels">
       <h2 className="MenuUsers__title">Usuarios</h2>
       <div className="MenuUsers__users">
         <div className="MenuUsers__users__online">
@@ -24,6 +24,7 @@ export default function MenuUsers({ setCurrentChat }) {
                 key={user.uid} 
                 user={user} 
                 setCurrentChat={setCurrentChat}
+                updateLastConversation={updateLastConversation}
               />)
             }
           </ul>
@@ -39,6 +40,7 @@ export default function MenuUsers({ setCurrentChat }) {
                 key={user.uid} 
                 user={user} 
                 setCurrentChat={setCurrentChat}
+                updateLastConversation={updateLastConversation}
               />)
             }
           </ul>

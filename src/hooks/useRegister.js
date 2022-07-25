@@ -100,7 +100,8 @@ export const useRegister = () => {
                   name: dataRegister.name,
                   email: dataRegister.email,
                   createdAt: Timestamp.fromDate(new Date()),
-                  isOnline: false
+                  isOnline: false,
+                  lastActiveConversation: ""
                 });
 
                 swal({

@@ -1,12 +1,8 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
 import { IoNotificationsOutline, IoChatbubblesOutline, IoPersonOutline, IoWarning } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
 import { RiHashtag } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
-import { signOut } from "firebase/auth";
-import { updateDoc, doc } from "firebase/firestore";
-import { auth, db } from "../../firebase/firebaseConfig";
 import { AuthContext } from "../../context/authProvider";
 
 import "./Menu.css";
@@ -14,9 +10,10 @@ import MenuChannel from "../MenuChannel/MenuChannel";
 import MenuMessages from "../MenuMessages/MenuMessages";
 import MenuNotification from "../MenuNotification/MenuNotification";
 import MenuUsers from "../MenuUsers/MenuUsers";
+import { useMenu } from "../../hooks/useMenu";
 
-export default function Menu({ setCurrentChat }) {
-  const [menu, openMenu, closeMenu, openAccount, signOutUser] = useMenu({ setCurrentChat });
+export default function Menu({ setCurrentChat, updateLastConversation }) {
+  const [menu, openMenu, closeMenu, openAccount, signOutUser] = useMenu();
   const { user } = useContext(AuthContext);
 
   return (
@@ -77,82 +74,26 @@ export default function Menu({ setCurrentChat }) {
         <button className="Menu__Content__close" onClick={closeMenu}>
           <IoIosClose className="menu_iconBtn" />
         </button>
-        {menu}
+        <div className="Menu__Content__panels">
+          <MenuNotification />
+          <MenuChannel
+            setCurrentChat={setCurrentChat}
+            updateLastConversation={updateLastConversation}
+          />
+          <MenuMessages
+            setCurrentChat={setCurrentChat}
+            updateLastConversation={updateLastConversation}
+          />
+          <MenuUsers
+            setCurrentChat={setCurrentChat}
+            updateLastConversation={updateLastConversation}
+          />
+        </div>
       </div>
     </aside>
   );
 }
 
-const useMenu = ({ setCurrentChat }) => {
-  const [menu, setMenu] = useState(null);
-  const navigate = useNavigate();
-
-  const openMenu = (btn) => {
-    let menuCotent = document.getElementById("menu-content");
-    let buttons = document.getElementsByClassName("Menu__Buttons__options__list__item__button");
-    let typeMenu = '';
-    let ChatReply = document.getElementsByClassName("Chat__reply")[0];
-    ChatReply.classList.remove("--replyActive");
-
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].classList.remove("_active");
-    }
-    buttons[btn].classList.add("_active");
-    menuCotent.classList.add("_MenuView");
-
-    if (btn === 0) {
-      typeMenu = <MenuNotification />;
-    } else if (btn === 1) {
-      typeMenu = <MenuChannel setCurrentChat={setCurrentChat} />;
-    } else if (btn === 2) {
-      typeMenu = <MenuMessages setCurrentChat={setCurrentChat} />;
-    } else if (btn === 3) {
-      typeMenu = <MenuUsers setCurrentChat={setCurrentChat} />;
-    }
-
-    setMenu(typeMenu);
-  }
-
-  const closeMenu = () => {
-    let menuCotent = document.getElementById("menu-content");
-    let buttons = document.getElementsByClassName("Menu__Buttons__options__list__item__button");
-    menuCotent.classList.remove("_MenuView");
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].classList.remove("_active");
-    }
-    setMenu('');
-  }
-
-  const openAccount = () => {
-    let account = document.getElementById("account-panel");
-    let accountWarning = document.getElementById("account-warning");
-    if (account.classList.contains("_view")) {
-      account.classList.remove("_view");
-      if (accountWarning) { accountWarning.classList.add("_view"); }
-    } else {
-      account.classList.add("_view");
-      if (accountWarning) { accountWarning.classList.remove("_view"); }
-    }
-  }
-
-  const signOutUser = async () => {
-    await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-      isOnline: false
-    });
-    await signOut(auth);
-    navigate('/login');
-  }
-
-  return [
-    menu,
-    openMenu,
-    closeMenu,
-    openAccount,
-    signOutUser
-  ];
-}
-
-// evento para cerrar el account si se hace click afuera del mismo
 window.addEventListener("click", function (e) {
   const account = document.getElementById("account-panel");
   const accountWarning = document.getElementById("account-warning");

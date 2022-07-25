@@ -35,6 +35,7 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
       </div>
     );
   }
+
   return (
     <div className="MessagesContainer">
       <div className="MessagesContainer__header">
@@ -50,10 +51,10 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
             <div className="MessagesContainer__body__attachments__image">
               <div className="MessagesContainer__body__attachments__image__container">
                 {
-                  msg.media ? msg.media.map((media) => {
+                  msg.media ? msg.media.map((media, index) => {
                     let nameImg = media.split('-NM%3D')[1].split('?alt')[0];
                     return (
-                      <img src={media} alt="media" title={nameImg} />
+                      <img key={index} src={media} alt="media" title={nameImg} />
                     )
                   }) : null
                 }
@@ -66,11 +67,11 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
             <div className="MessagesContainer__body__attachments__file">
               <div className="MessagesContainer__body__attachments__file__container">
                 {
-                  msg.files ? msg.files.map((file) => {
+                  msg.files ? msg.files.map((file, index) => {
                     let nameFile = file.split('-NM%3D')[1].split('?alt')[0];
                     let extension = nameFile.substring(nameFile.length - 5, nameFile.length).split(".")[1]
                     return (
-                      <button className="FilesContainerPreview__chat" onClick={() => downloadAttachment(file, nameFile)} title={nameFile}>
+                      <button className="FilesContainerPreview__chat" key={index} onClick={() => downloadAttachment(file, nameFile)} title={nameFile}>
                         <div className="FilesContainerPreview__chat__icon">
                           <HiDownload />
                         </div>

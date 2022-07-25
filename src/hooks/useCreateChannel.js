@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
-import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, Timestamp, where } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { AuthContext } from '../context/authProvider';
+import swal from 'sweetalert';
 
 export const useCreateChannel = () => {
   const [isCreate, setIsCreate] = useState({
@@ -40,32 +41,60 @@ export const useCreateChannel = () => {
     let invite_channel = document.getElementById('invite-channel');
 
     nameVal = valueNameChannel(nameVal);
+    nameVal = nameVal.toLowerCase();
     name_channel.value = nameVal;
 
     if (nameVal.length === 0) {
       name_channel.classList.add('--required');
     } else {
       let descriptionVal = description_channel.value;
+      let members = [];
+
       if (nameVal.length > 0) {
         name_channel.classList.remove('--required');
       }
+
       if (descriptionVal.length === 0) {
         descriptionVal = 'Canal de ' + nameVal;
       }
-      let members = [user.uid];
-      let dataChannel = {
-        id: nameVal + new Date().getTime() + (visibility_channel.checked ? 'private' : 'public'),
-        name: nameVal,
-        description: descriptionVal,
-        visibility: visibility_channel.checked ? 'private' : 'public',
-        members: members,
-        admin: user.uid,
-        createdAt: Timestamp.fromDate(new Date())
-      }
 
       const create = async () => {
-        await setDoc(doc(db, 'channels/' + dataChannel.id), dataChannel);
+        if (visibility_channel.checked === false) {
+          const q = query(collection(db, 'channels'), where('name', '==', nameVal));
+          const qSnap = await getDocs(q);
+          if (qSnap.docs.length > 0) {
+            swal({
+              title: "El nombre del canal ya existe",
+              text: "Por favor, ingrese un nombre diferente",
+              icon: "error",
+              button: "Aceptar"
+            });
+            return;
+          } else {
+            const querySnapshot = await getDocs(collection(db, 'users'));
+            let users = [];
+            querySnapshot.forEach((doc) => {
+              users.push(doc.id);
+            });
+            members = users;
+          }
+        } else {
+          let users = [user.uid];
+          members = users;
+        }
 
+        let dataChannel = {
+          id: nameVal + new Date().getTime() + (visibility_channel.checked ? 'private' : 'public'),
+          name: nameVal,
+          description: descriptionVal,
+          visibility: visibility_channel.checked ? 'private' : 'public',
+          members: members,
+          admin: user.uid,
+          createdAt: Timestamp.fromDate(new Date())
+        }
+
+        await setDoc(doc(db, 'channels/' + dataChannel.id), dataChannel);
+        
         let id = "msg" + new Date().getTime();
         await setDoc(doc(db, 'messages', dataChannel.id, 'chat', id), {
           nameFrom: user.displayName,
@@ -74,7 +103,7 @@ export const useCreateChannel = () => {
           createdAt: Timestamp.fromDate(new Date()),
           id: id
         });
-
+        
         await setDoc(doc(db, 'messages/' + dataChannel.id), {
           id: dataChannel.id
         });
@@ -104,5 +133,11 @@ export const useCreateChannel = () => {
     }));
   }
 
-  return [isCreate, createChannel, KeyUpNameChannel, changeVisibility];
+  return {
+    isCreate,
+    setIsCreate,
+    createChannel,
+    KeyUpNameChannel,
+    changeVisibility
+  };
 }

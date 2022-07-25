@@ -218,6 +218,10 @@ button#name-user>svg.icon_Warning {
   background-color: rgba(81, 92, 158, 0.15);
 }
 
+.Menu__Content__panels {
+  width: 100%;
+  height: 100%;
+}
 
 .Menu__Buttons__options__list__item__button:hover>span.span_button_title,
 .Menu__Buttons__account__button:hover>span.span_button_title {

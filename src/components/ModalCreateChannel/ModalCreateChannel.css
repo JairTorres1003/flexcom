@@ -92,6 +92,7 @@
   font-family: Arial, Helvetica, sans-serif;
   outline: none;
   background-color: rgb(225, 225, 225);
+  text-transform: lowercase;
 }
 
 .ModalCreateChannel__modal__content__name__input.--required {

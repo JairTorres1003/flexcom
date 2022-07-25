@@ -4,7 +4,7 @@ import "./MenuNotification.css";
 
 export default function MenuNotification() {
   return (
-    <div className="MenuNotification">
+    <div className="MenuNotification _panels">
       <h2 className="MenuNotification__title">Notificationes</h2>
       <div className="MenuNotification__list">
         {/* ↓ Ejemplo Eliminar despues ↓ */}

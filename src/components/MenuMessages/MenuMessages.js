@@ -6,7 +6,7 @@ import { useUserMessages } from "../../hooks/useUserMessages";
 
 import "./MenuMessages.css";
 
-export default function MenuMessages({ setCurrentChat }) {
+export default function MenuMessages({ setCurrentChat, updateLastConversation }) {
   const { user } = useContext(AuthContext);
   const userObj = {
     name: user.displayName,
@@ -15,14 +15,17 @@ export default function MenuMessages({ setCurrentChat }) {
   const { usersMessages } = useUserMessages({ user });
 
   return (
-    <div className="MenuMessages">
+    <div className="MenuMessages _panels">
       <h2 className="MenuMessages__title">Mensajes</h2>
       <div className="MenuMessages__buttons">
         <button className="MenuMessages__buttons__btn" id="button-sendMessage">
           <IoAdd className="MenuMessages__buttons__btn__icon" />
           <p>Envia un nuevo mensaje</p>
         </button>
-        <button className="MenuMessages__buttons__btn" id="button-draftMessage" onClick={() => setCurrentChat(userObj)}>
+        <button className="MenuMessages__buttons__btn" id="button-draftMessage" onClick={() => {
+          setCurrentChat(userObj);
+          updateLastConversation(userObj.uid);
+        }}>
           <BsCircleFill className="MenuMessages__list-message__icon" />
           <p>{user ? user.displayName : null} <span>(tú)</span></p>
         </button>
@@ -33,7 +36,10 @@ export default function MenuMessages({ setCurrentChat }) {
             usersMessages ? (
               usersMessages.map((userMsg, index) => {
                 return (
-                  <li className="MenuMessages__list-message" key={index} onClick={() => setCurrentChat(userMsg)}>
+                  <li className="MenuMessages__list-message" key={index} onClick={() => {
+                    setCurrentChat(userObj);
+                    updateLastConversation(userObj.uid);
+                  }}>
                     <BsCircleFill className="MenuMessages__list-message__icon" />
                     <p>{userMsg.name}</p>
                   </li>

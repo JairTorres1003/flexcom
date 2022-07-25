@@ -11,6 +11,13 @@
   gap: 10px;
 }
 
+
+.MenuNotification._panels {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
 .MenuNotification__title {
   font-size: 20px;
   font-weight: bold;

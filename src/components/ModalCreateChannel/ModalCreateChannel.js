@@ -6,7 +6,7 @@ import "./ModalCreateChannel.css";
 
 export default function ModalCreateChannel() {
   const { modals } = useModals();
-  const [isCreate, createChannel, KeyUpNameChannel, changeVisibility] = useCreateChannel();
+  const { isCreate, setIsCreate, createChannel, KeyUpNameChannel, changeVisibility } = useCreateChannel();
 
   return (
     <div className="ModalCreateChannel" id="modal-createChannel">
@@ -35,7 +35,10 @@ export default function ModalCreateChannel() {
           </div>
           <div className="ModalCreateChannel__modal__content__buttons">
             <button className="ModalCreateChannel__modal__content__buttons__button" onClick={createChannel}>Crear canal</button>
-            <button className="ModalCreateChannel__modal__content__buttons__button" id="cancelChannel-btn" onClick={() => modals.closeModal("modal-createChannel")}>Cancelar</button>
+            <button className="ModalCreateChannel__modal__content__buttons__button" id="cancelChannel-btn" onClick={() => {
+              modals.closeModal("modal-createChannel");
+              setIsCreate({visibility: "El canal es visible para todos, cualquier usuario puede unirse."});
+            }}>Cancelar</button>
           </div>
         </div>
       </div>

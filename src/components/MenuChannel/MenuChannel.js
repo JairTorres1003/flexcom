@@ -6,12 +6,12 @@ import ChannelList from "../ChannelList/ChannelList";
 
 import "./MenuChannel.css";
 
-export default function MenuChannel({ setCurrentChat }) {
+export default function MenuChannel({ setCurrentChat, updateLastConversation }) {
   const { modals } = useModals();
   const { listChannels }= useChannel();
 
   return (
-    <div className="MenuChannel">
+    <div className="MenuChannel _panels">
       <h2 className="MenuChannel__title">Canales</h2>
       <div className="MenuChannel__button">
         <button className="MenuChannel__button__createChannel" id="button-createChannel" onClick={() => modals.openModal("modal-createChannel")}>
@@ -27,6 +27,7 @@ export default function MenuChannel({ setCurrentChat }) {
                 key={index}
                 channel={channel}
                 setCurrentChat={setCurrentChat}
+                updateLastConversation={updateLastConversation}
                 />
             }) : null
           }
