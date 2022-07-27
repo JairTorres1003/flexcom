@@ -22,7 +22,7 @@ function createWindow() {
   mainWin.loadURL('http://localhost:3000');
   mainWin.setBackgroundColor('#141E30');
 
-  // mainWin.webContents.openDevTools(); // open devTools
+  mainWin.webContents.openDevTools(); // open devTools
 
   ipcMain.on("app/close", () => {
     mainWin.close();

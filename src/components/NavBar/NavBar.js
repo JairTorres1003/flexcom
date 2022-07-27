@@ -35,9 +35,16 @@ function NavBar({ currentChat }) {
         </button>
       </div>
       <div className="NavBar__usersChannel">
-        <button className="NavBar__usersChannel__button">
-          <IoPeopleOutline className="Icon_usersChannel" />
-        </button>
+        {
+          currentChat ? (
+            currentChat.hasOwnProperty("visibility") ? (
+              <button className="NavBar__usersChannel__button">
+                <IoPeopleOutline className="Icon_usersChannel" />
+                {currentChat.members.length}
+              </button>
+            ) : null
+          ) : null
+        }
       </div>
     </div>
   );

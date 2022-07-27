@@ -1,12 +1,25 @@
 import React from "react";
 import { useCreateChannel } from "../../hooks/useCreateChannel";
 import { useModals } from "../../hooks/useModals";
+import PanelUsers from "../PanelUsers/PanelUsers";
 
 import "./ModalCreateChannel.css";
 
 export default function ModalCreateChannel() {
   const { modals } = useModals();
-  const { isCreate, setIsCreate, createChannel, KeyUpNameChannel, changeVisibility } = useCreateChannel();
+  const { 
+    isCreate, 
+    setIsCreate, 
+    createChannel, 
+    KeyUpNameChannel, 
+    changeVisibility, 
+    activeFocusInvited, 
+    addNewInvited,
+    setInvitedList,
+    invitedList,
+    removeInvited,
+    listUsers
+  } = useCreateChannel();
 
   return (
     <div className="ModalCreateChannel" id="modal-createChannel">
@@ -15,7 +28,7 @@ export default function ModalCreateChannel() {
         <div className="ModalCreateChannel__modal__content">
           <div className="ModalCreateChannel__modal__content__name">
             <label className="ModalCreateChannel__modal__content__name__label">Nombre del canal</label>
-            <input type="text" id="name-channel" className="ModalCreateChannel__modal__content__name__input" placeholder="Ejemplo: informacion" onKeyUp={KeyUpNameChannel} />
+            <input type="text" id="name-channel" className="ModalCreateChannel__modal__content__name__input" placeholder="Ejemplo: informacion" onKeyUp={KeyUpNameChannel} autoComplete="off" />
           </div>
           <div className="ModalCreateChannel__modal__content__description">
             <label className="ModalCreateChannel__modal__content__description__label">Descripción del canal</label>
@@ -29,15 +42,30 @@ export default function ModalCreateChannel() {
             </div>
           </div>
           <p className="ModalCreateChannel__modal__content__visibility__message" id="msgPublic-private">{isCreate.visibility}</p>
-          <div className="ModalCreateChannel__modal__content__invite">
+          <div className="ModalCreateChannel__modal__content__invite --public">
             <label className="ModalCreateChannel__modal__content__invite__label">Invitar usuarios</label>
-            <textarea id="invite-channel" className="ModalCreateChannel__modal__content__invite__textarea" placeholder="Ejemplo: @usuario1 @usuario2"></textarea>
+            <div id="invite-channel" className="ModalCreateChannel__modal__content__invite__list" onClick={activeFocusInvited}>
+              {invitedList ? invitedList.map((user, index) => <span 
+                key={index}
+                onClick={() => removeInvited(user)}
+              >{user.name}</span> ) : null}
+              <input type="text" id="search-invited" placeholder="Ejemplo: @juan" autoComplete="off" onKeyUp={addNewInvited}/>
+            </div>
+            <PanelUsers 
+              setInvitedList={setInvitedList}
+              invitedList={invitedList}
+              listUsers={listUsers}
+            />
           </div>
+          <div className="ModalCreateChannel__modal__content__space"></div>
           <div className="ModalCreateChannel__modal__content__buttons">
-            <button className="ModalCreateChannel__modal__content__buttons__button" onClick={createChannel}>Crear canal</button>
+            <button className="ModalCreateChannel__modal__content__buttons__button" onClick={createChannel}>{
+              isCreate.loading ? "Creando..." : "Crear canal"
+            }</button>
             <button className="ModalCreateChannel__modal__content__buttons__button" id="cancelChannel-btn" onClick={() => {
               modals.closeModal("modal-createChannel");
-              setIsCreate({visibility: "El canal es visible para todos, cualquier usuario puede unirse."});
+              setIsCreate({ visibility: "El canal es visible para todos, cualquier usuario puede unirse." });
+              setInvitedList([]);
             }}>Cancelar</button>
           </div>
         </div>
@@ -49,6 +77,8 @@ export default function ModalCreateChannel() {
 
 window.addEventListener('click', function (e) {
   const nameChannel = document.getElementById('name-channel');
+  const PanelUsers = document.getElementsByClassName('PanelUsers')[0];
+  const inviteChannel = document.getElementById('invite-channel');
 
   if (e.target !== nameChannel && !!nameChannel) {
     let name = nameChannel.value;
@@ -57,5 +87,8 @@ window.addEventListener('click', function (e) {
       return e.length > 0;
     });
     nameChannel.value = nameArray.join('-');
+    if (e.target !== inviteChannel) {
+      PanelUsers.classList.remove('--searchActive');
+    }
   }
 });

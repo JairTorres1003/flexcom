@@ -41,7 +41,8 @@ export const useModals = () => {
       name_channel.classList.remove('--required');
       document.getElementById('description-channel').value = '';
       document.getElementById('visibility-channel').checked = false;
-      document.getElementById('invite-channel').value = '';
+      document.getElementsByClassName('ModalCreateChannel__modal__content__invite')[0].classList.add('--public');
+      document.getElementById('search-invited').value = '';
     }
     if (modalID === "modal-link") {
       let text = document.getElementById('input-text');

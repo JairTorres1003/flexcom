@@ -186,6 +186,13 @@
   position: relative;
 }
 
+
+.TextEdit__container__tools__button.--chat {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
 .TextEdit__container__tools__button::after {
   content: "";
   position: absolute;

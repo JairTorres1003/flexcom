@@ -19,7 +19,7 @@ export default function TextEdit({ currentChat }) {
     position: 0,
     emojiObject: null
   });
-  const {textEdits} = useTextEdit({currentChat});
+  const { textEdits } = useTextEdit({currentChat});
 
   const onEmojiClick = (event, emojiObject) => {
     setShowPicker(previusState => {
@@ -51,7 +51,8 @@ export default function TextEdit({ currentChat }) {
             <button className="TextEdit__container__tools__button" id="btnTool-file" onClick={textEdits.openFile} onMouseOver={() => textEdits.handleMouseOver(0)} onMouseOut={textEdits.handleMouseOut}>
               <ImFileEmpty className="icon_ToolsText" id="Icon_Tool-file" />
             </button>
-            <button className="TextEdit__container__tools__button" id="btnTool-checklist" onClick={() => modals.openModal("modal-checkList")} onMouseOver={() => textEdits.handleMouseOver(1)} onMouseOut={textEdits.handleMouseOut}>
+            <button className={`TextEdit__container__tools__button ${currentChat.hasOwnProperty("visibility") ? "" : "--chat"}`}
+            id="btnTool-checklist" onClick={() => modals.openModal("modal-checkList")} onMouseOver={() => textEdits.handleMouseOver(1)} onMouseOut={textEdits.handleMouseOut}>
               <ImFileText2 className="icon_ToolsText" id="Icon_Tool-checklist" />
             </button>
             <button className="TextEdit__container__tools__button" id="btnTool-image" onClick={textEdits.openImage} onMouseOver={() => textEdits.handleMouseOver(2)} onMouseOut={textEdits.handleMouseOut}>
