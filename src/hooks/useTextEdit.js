@@ -12,7 +12,7 @@ export const useTextEdit = ({ currentChat }) => {
     dataFiles: [],
     dataImages: []
   });
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   // funcion que quita el span placeholder cuando se escribe en el div textarea
   const handleTextEdit = () => {
@@ -63,6 +63,7 @@ export const useTextEdit = ({ currentChat }) => {
     let ChatMessages = document.getElementsByClassName("Chat__messages")[0];
     let textEditFilePreview = document.getElementsByClassName("TextEdit__container__files__file__preview")[0];
     let textEditImagePreview = document.getElementsByClassName("TextEdit__container__files__image__preview")[0];
+    let dateTime = document.getElementsByClassName("ModalScheduleMessage__modal__content__message__data__dateTime")[0].textContent;
     const ChatReply = document.getElementsByClassName("Chat__reply")[0];
 
     if (textEditDivTextarea.innerText.trim() !== "" || isTextEdit.dataFiles.length > 0 || isTextEdit.dataImages.length > 0) {
@@ -87,9 +88,11 @@ export const useTextEdit = ({ currentChat }) => {
             chatId = userOne;
           }
         }
+
         const handleSendMessage = async () => {
           let urlImg = [];
           let urlFile = [];
+          let get_time = new Date().getTime();
 
           if (isTextEdit.dataImages.length > 0) {
             for (let i = 0; i < isTextEdit.dataImages.length; i++) {
@@ -113,41 +116,67 @@ export const useTextEdit = ({ currentChat }) => {
 
           if (ChatReply.classList.contains("--replyActive")) {
             let idMsg = document.getElementsByClassName("MessagesReply__header__time__tm")[0].innerHTML;
-            let id = "rp" + new Date().getTime();
+            let id = "rp" + get_time;
             let refMsg = doc(db, `messages/${chatId}/chat/${idMsg}`);
 
             const docSnap = await getDoc(refMsg);
 
             if (docSnap.exists()) {
-              await updateDoc(refMsg, {
-                reply: docSnap.data().reply + 1
-              });
-
               await setDoc(doc(db, 'messages', chatId, 'chat', idMsg, 'reply', id), {
                 message: message,
                 nameFrom: user.displayName,
                 from: userOne,
                 to: userTwo,
-                createdAt: Timestamp.fromDate(new Date()),
+                createdAt: Timestamp.fromDate(dateTime !== "" ? new Date(dateTime) : new Date()),
                 media: urlImg,
                 files: urlFile,
-                id: id
+                id: id,
+                programmed: dateTime !== "" ? true : false
               });
+
+              if (dateTime !== "") {
+                await setDoc(doc(db, 'schedules', id), {
+                  id: id,
+                  from: userOne,
+                  to: userTwo,
+                  createdAt: Timestamp.fromDate(new Date(dateTime)),
+                  type: "reply",
+                  chatId: chatId,
+                  idMsg: idMsg
+                });
+              } else {
+                await updateDoc(refMsg, {
+                  reply: docSnap.data().reply + 1
+                });
+              }
             }
           } else {
-            let id = "msg" + new Date().getTime();
+            let id = "msg" + get_time;
             await setDoc(doc(db, 'messages', chatId, 'chat', id), {
               message: message,
               nameFrom: user.displayName,
               from: userOne,
               to: userTwo,
-              createdAt: Timestamp.fromDate(new Date()),
+              createdAt: Timestamp.fromDate(dateTime !== "" ? new Date(dateTime) : new Date()),
               media: urlImg,
               files: urlFile,
               reply: 0,
-              id: id
+              id: id,
+              programmed: dateTime !== "" ? true : false
             });
+
+            if (dateTime !== "") {
+              await setDoc(doc(db, 'schedules', id), {
+                id: id,
+                from: userOne,
+                to: userTwo,
+                createdAt: Timestamp.fromDate(new Date(dateTime)),
+                type: "message",
+                chatId: chatId
+              });
+            }
           }
+
 
           await setDoc(doc(db, 'messages/' + chatId), {
             id: chatId

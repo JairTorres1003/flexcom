@@ -99,7 +99,7 @@ export default function TextEdit({ currentChat }) {
           </div>
         </div>
         <form className="TextEdit__container__text">
-          <div className="TextEdit__container__text__textarea" contentEditable="true" id="textEdit-divTextarea" onKeyUp={textEdits.handleTextEdit} onKeyDown={textEdits.controlKey}><p><br /></p></div>
+          <div className="TextEdit__container__text__textarea" contentEditable="true" id="textEdit-divTextarea" spellCheck="false" onKeyUp={textEdits.handleTextEdit} onKeyDown={textEdits.controlKey}><p><br /></p></div>
           <span className="TextEdit__container__text__placeholder" id="textEdit-spanPlaceholder" onClick={textEdits.clickTextEdit}>Escribe un mensaje aquí...</span>
           <button className="TextEdit__container__text__button" id="send-button" onClick={textEdits.sendMessage} onMouseOver={() => textEdits.handleMouseOver(13)} onMouseOut={textEdits.handleMouseOut}>
             <IoSendSharp className="icon_TextEdit" />

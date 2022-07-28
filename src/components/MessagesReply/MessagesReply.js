@@ -15,7 +15,7 @@ export default function MessagesReply({ msg }) {
     downloadAttachment
   } = useMessagesContainer();
 
-  return (
+  return msg.createdAt.toDate() > new Date() ? null : (
     <div className="MessagesReply">
       <div className="MessagesReply__header">
         <h4 className="MessagesReply__header__name">{msg.nameFrom}</h4>

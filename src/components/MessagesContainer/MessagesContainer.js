@@ -36,7 +36,7 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
     );
   }
 
-  return (
+  return msg.createdAt.toDate() > new Date() ? null : (
     <div className="MessagesContainer">
       <div className="MessagesContainer__header">
         <h4 className="MessagesContainer__header__name">{msg.nameFrom}</h4>

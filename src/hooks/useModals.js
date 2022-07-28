@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import swal from 'sweetalert';
 
 export const useModals = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -13,7 +14,6 @@ export const useModals = () => {
     let modal = document.getElementById(modalID);
     modal.classList.remove("is-open");
     setIsOpenModal(false);
-    clearDataModal(modalID);
   }
 
   const clearDataModal = (modalID) => {
@@ -58,19 +58,43 @@ export const useModals = () => {
       scnStart.innerHTML = caretPosEl;
     }
     if (modalID === "modal-scheduleMessage") {
-      let date_time = new Date();
-      let dateMin = new Date(date_time.getFullYear(), date_time.getMonth(), date_time.getDate()).toISOString().split('T')[0];
-      let dateMax = new Date(date_time.getFullYear(), date_time.getMonth() + 1, date_time.getDate()).toISOString().split('T')[0];
-      let hour = date_time.getHours();
-      let minute = date_time.getMinutes();
+      let today = new Date();
+      let todayDate = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+      let dateMin = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString().split('T')[0];
+      let dateMax = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate()).toISOString().split('T')[0];
+      let hour = today.getHours();
+      let minute = today.getMinutes() + 5;
+      let text = document.getElementsByClassName('TextEdit__container__text__textarea')[0];
+      let file = document.getElementsByClassName('TextEdit__container__files__file__preview')[0].childElementCount;
+      let image = document.getElementsByClassName('TextEdit__container__files__image__preview')[0].childElementCount;
+
+      if (minute > 59) {
+        hour++;
+        minute = minute - 59;
+      }
+
       hour = (hour < 10 ? '0' : '') + hour;
       minute = (minute < 10 ? '0' : '') + minute;
 
-      document.getElementById('date-scheduleMessage').valueAsDate = date_time;
+
+      document.getElementById('date-scheduleMessage').valueAsDate = new Date(todayDate);
       document.getElementById('date-scheduleMessage').min = dateMin;
       document.getElementById('date-scheduleMessage').max = dateMax;
       document.getElementById('time-scheduleMessage').value = `${hour}:${minute}`;
-      document.getElementById('input-scheduleMessage').value = '';
+      document.getElementById('time-scheduleMessage').min = `${hour}:${minute}`;
+      document.getElementById('text-scheduleMessage').innerHTML = text.innerText.trim() !== '' ? text.innerHTML : '';
+      document.getElementById('file-scheduleMessage').innerHTML = `+ ${file} ${file === 1 ? 'Archivo' : 'Archivos'}`;
+      document.getElementById('image-scheduleMessage').innerHTML = `+ ${image} ${image === 1 ? 'Imagen' : 'Imágenes'}`;
+      
+      if (text.innerText.trim() === '' && file === 0 && image === 0) {
+        swal({
+          title: "Agregue un mensaje o un archivo",
+          text: "Para poder programar un mensaje, debe escribir algo en el editor de texto o adjuntar un archivo.",
+          icon: "warning",
+          button: "Ok"
+        });
+        closeModal('modal-scheduleMessage');
+      }
     }
   }
 
