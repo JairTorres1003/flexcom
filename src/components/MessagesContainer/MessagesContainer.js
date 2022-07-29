@@ -1,7 +1,7 @@
 import React from "react";
 import Moment from "react-moment";
 import { HiDownload } from "react-icons/hi";
-import { BsEmojiSmile } from "react-icons/bs";
+import { BsEmojiSmile, BsChatText } from "react-icons/bs";
 import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
@@ -13,6 +13,8 @@ import {
 
 import "./MessagesContainer.css";
 import { useMessagesContainer } from "../../hooks/useMessagesContainer";
+import { useModals } from "../../hooks/useModals";
+import { useForwarding } from "../../hooks/useForwarding";
 
 export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
   const { 
@@ -22,6 +24,8 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
     downloadAttachment, 
     handleReply
   } = useMessagesContainer();
+  const { modals } = useModals();
+  const { setForwardMessage } = useForwarding();
 
   if (!msg.hasOwnProperty("message")) {
     return (
@@ -98,7 +102,7 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
             handleReply();
             getMsgReplys(msg.id);
           }}>
-            <IoArrowUndo />
+            <BsChatText />
             Respuestas: {msg.reply}
           </button> : null
         }
@@ -111,7 +115,10 @@ export default function MessagesContainer({ msg, setMsgReply, getMsgReplys }) {
         }}>
           <IoArrowUndo />
         </button>
-        <button className="MessagesContainer__actions__button">
+        <button className="MessagesContainer__actions__button" onClick={() => {
+          modals.openModal("modal-forwarding");
+          setForwardMessage(msg);
+        }}>
           <IoArrowRedo />
         </button>
         <button className="MessagesContainer__actions__button">

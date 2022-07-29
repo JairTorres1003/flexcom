@@ -1,14 +1,12 @@
 import React from "react";
 import { IoAdd } from "react-icons/io5";
-import { useChannel } from "../../hooks/useChannel";
 import { useModals } from "../../hooks/useModals";
 import ChannelList from "../ChannelList/ChannelList";
 
 import "./MenuChannel.css";
 
-export default function MenuChannel({ setCurrentChat, updateLastConversation }) {
+export default function MenuChannel({ channelsList, setCurrentChat, updateLastConversation }) {
   const { modals } = useModals();
-  const { listChannels }= useChannel();
 
   return (
     <div className="MenuChannel _panels">
@@ -22,7 +20,7 @@ export default function MenuChannel({ setCurrentChat, updateLastConversation }) 
       <div className="MenuChannel__list">
         <ul className="MenuChannel__list-list">
           {
-            listChannels ?  listChannels.map((channel, index) => {
+            channelsList ?  channelsList.map((channel, index) => {
               return <ChannelList 
                 key={index}
                 channel={channel}

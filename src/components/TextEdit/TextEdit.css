@@ -17,6 +17,13 @@
   flex-direction: column;
 }
 
+.emoji_picker {
+  position: absolute;
+  bottom: calc(100% - 10px);
+  left: 10px;
+  z-index: 100;
+}
+
 .TextEdit__container__files {
   display: flex;
   flex-direction: row;

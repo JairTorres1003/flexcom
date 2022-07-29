@@ -7,12 +7,14 @@ export const useModals = () => {
   const openModal = (modalID) => {
     let modal = document.getElementById(modalID);
     modal.classList.add("is-open");
+    modal.children[0].style.setProperty('--animate-duration', '.2s');
     setIsOpenModal(true);
     clearDataModal(modalID);
   }
   const closeModal = (modalID) => {
     let modal = document.getElementById(modalID);
     modal.classList.remove("is-open");
+    modal.children[0].removeAttribute('style');
     setIsOpenModal(false);
   }
 
@@ -40,9 +42,6 @@ export const useModals = () => {
       name_channel.value = '';
       name_channel.classList.remove('--required');
       document.getElementById('description-channel').value = '';
-      document.getElementById('visibility-channel').checked = false;
-      document.getElementsByClassName('ModalCreateChannel__modal__content__invite')[0].classList.add('--public');
-      document.getElementById('search-invited').value = '';
     }
     if (modalID === "modal-link") {
       let text = document.getElementById('input-text');

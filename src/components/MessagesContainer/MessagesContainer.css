@@ -15,6 +15,12 @@
   transition: .2s;
 }
 
+.MessagesContainer.--hidden {
+  opacity: 0;
+  display: none;
+  visibility: hidden;
+}
+
 .MessagesContainer:hover {
   background: rgb(255 255 255 / 20%);
 }

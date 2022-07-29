@@ -10,7 +10,7 @@ export default function ModalCheckList() {
 
   return (
     <div className="ModalCheckList" id="modal-checkList">
-      <div className="ModalCheckList__modal">
+      <div className="ModalCheckList__modal animate__animated animate__zoomIn">
         <h2 className="ModalCheckList__modal__title">Lista de chequeo</h2>
         <div className="ModalCheckList__modal__content">
           <div className="ModalCheckList__modal__content__select">

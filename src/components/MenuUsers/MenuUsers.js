@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HiOutlineChevronDown, HiOutlineChevronRight } from "react-icons/hi";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { auth, db } from "../../firebase/firebaseConfig";
 
 import "./MenuUsers.css";
 import { User } from "../User/User";
 
-export default function MenuUsers({ setCurrentChat, updateLastConversation }) {
-  const { users, isOpenUsers, deployUsers } = useUsers();
+export default function MenuUsers({ usersList, setCurrentChat, updateLastConversation }) {
+  const { isOpenUsers, deployUsers } = useUsers();
 
   return (
     <div className="MenuUsers _panels">
@@ -20,7 +18,7 @@ export default function MenuUsers({ setCurrentChat, updateLastConversation }) {
           </button>
           <ul className="MenuUsers__users__online-list --userListOnOff">
             {
-              users.filter(user => user.isOnline).map(user => <User 
+              usersList.filter(user => user.isOnline).map(user => <User 
                 key={user.uid} 
                 user={user} 
                 setCurrentChat={setCurrentChat}
@@ -36,7 +34,7 @@ export default function MenuUsers({ setCurrentChat, updateLastConversation }) {
           </button>
           <ul className="MenuUsers__users__offline-list --userListOnOff">
             {
-              users.filter(user => !user.isOnline).map(user => <User 
+              usersList.filter(user => !user.isOnline).map(user => <User 
                 key={user.uid} 
                 user={user} 
                 setCurrentChat={setCurrentChat}
@@ -51,8 +49,6 @@ export default function MenuUsers({ setCurrentChat, updateLastConversation }) {
 }
 
 const useUsers = () => {
-  const [users, setUsers] = useState([]);
-
   const [isOpenUsers, setIsOpenUsers] = useState({
     iconOnline: <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />, 
     iconOffline: <HiOutlineChevronRight className="MenuUsers__users__onOff__btn__icon" />
@@ -92,17 +88,5 @@ const useUsers = () => {
     });
   }
 
-  useEffect(() => {
-    const usersRef = collection(db, "users");
-    const q = query(usersRef, where('uid', 'not-in', [auth.currentUser.uid]));
-    const unsub = onSnapshot(q, querySnapshot => {
-      let users = [];
-      querySnapshot.forEach(doc => {
-        users.push(doc.data());
-      });
-      setUsers(users);
-    });
-  }, []);
-
-  return { users, isOpenUsers, deployUsers };
+  return { isOpenUsers, deployUsers };
 }

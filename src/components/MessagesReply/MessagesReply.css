@@ -15,6 +15,12 @@
   transition: .2s;
 }
 
+.MessagesReply.--hidden {
+  opacity: 0;
+  display: none;
+  visibility: hidden;
+}
+
 .MessagesReply:hover {
   background: rgb(255 255 255 / 20%);
 }

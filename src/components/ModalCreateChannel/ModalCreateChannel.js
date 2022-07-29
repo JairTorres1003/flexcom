@@ -1,29 +1,27 @@
 import React from "react";
+import Select from "react-select";
 import { useCreateChannel } from "../../hooks/useCreateChannel";
 import { useModals } from "../../hooks/useModals";
-import PanelUsers from "../PanelUsers/PanelUsers";
+import Switch from '@mui/material/Switch';
+
 
 import "./ModalCreateChannel.css";
 
-export default function ModalCreateChannel() {
+export default function ModalCreateChannel({ usersList }) {
   const { modals } = useModals();
-  const { 
-    isCreate, 
-    setIsCreate, 
-    createChannel, 
-    KeyUpNameChannel, 
-    changeVisibility, 
-    activeFocusInvited, 
-    addNewInvited,
-    setInvitedList,
-    invitedList,
-    removeInvited,
-    listUsers
+  const {
+    isCreate,
+    setIsCreate,
+    createChannel,
+    KeyUpNameChannel,
+    changeVisibility,
+    selectedOptions,
+    setSelectedOptions
   } = useCreateChannel();
 
   return (
     <div className="ModalCreateChannel" id="modal-createChannel">
-      <div className="ModalCreateChannel__modal">
+      <div className="ModalCreateChannel__modal animate__animated animate__zoomIn">
         <h2 className="ModalCreateChannel__modal__title">Crea un nuevo canal</h2>
         <div className="ModalCreateChannel__modal__content">
           <div className="ModalCreateChannel__modal__content__name">
@@ -36,25 +34,38 @@ export default function ModalCreateChannel() {
           </div>
           <div className="ModalCreateChannel__modal__content__visibility">
             <label className="ModalCreateChannel__modal__content__visibility__label">Visibilidad</label>
-            <div className="ModalCreateChannel__modal__content__visibility__input">
-              <input type="checkbox" id="visibility-channel" onClick={changeVisibility} />
-              <span className="button-checkbox"></span>
-            </div>
+            <Switch
+              checked={isCreate.visibility}
+              onChange={changeVisibility}
+              name="switch-visibility"
+              inputProps={{ 'aria-label': 'switch visibility' }}
+              size="small"
+            />
           </div>
-          <p className="ModalCreateChannel__modal__content__visibility__message" id="msgPublic-private">{isCreate.visibility}</p>
-          <div className="ModalCreateChannel__modal__content__invite --public">
+          <p className="ModalCreateChannel__modal__content__visibility__message" id="msgPublic-private">{
+            isCreate.visibility 
+            ? "El canal será privado, solo los usuarios que invites podrán unirse."
+            : "El canal es visible para todos, cualquier usuario puede unirse."
+          }</p>
+          <div className={`ModalCreateChannel__modal__content__invite ${isCreate.visibility ? '' : '--public'}`}>
             <label className="ModalCreateChannel__modal__content__invite__label">Invitar usuarios</label>
-            <div id="invite-channel" className="ModalCreateChannel__modal__content__invite__list" onClick={activeFocusInvited}>
-              {invitedList ? invitedList.map((user, index) => <span 
-                key={index}
-                onClick={() => removeInvited(user)}
-              >{user.name}</span> ) : null}
-              <input type="text" id="search-invited" placeholder="Ejemplo: @juan" autoComplete="off" onKeyUp={addNewInvited}/>
-            </div>
-            <PanelUsers 
-              setInvitedList={setInvitedList}
-              invitedList={invitedList}
-              listUsers={listUsers}
+            <Select
+              id="search-invited"
+              placeholder="Invita a un usuario"
+              value={selectedOptions}
+              options={
+                usersList.map(user => {
+                  return {
+                    value: user.uid,
+                    label: user.name
+                  }
+                })
+              }
+              name="select-invited"
+              isSearchable={true}
+              isClearable={true}
+              isMulti
+              onChange={(item) => setSelectedOptions(item)}
             />
           </div>
           <div className="ModalCreateChannel__modal__content__space"></div>
@@ -64,8 +75,7 @@ export default function ModalCreateChannel() {
             }</button>
             <button className="ModalCreateChannel__modal__content__buttons__button" id="cancelChannel-btn" onClick={() => {
               modals.closeModal("modal-createChannel");
-              setIsCreate({ visibility: "El canal es visible para todos, cualquier usuario puede unirse." });
-              setInvitedList([]);
+              setIsCreate({ visibility: false });
             }}>Cancelar</button>
           </div>
         </div>
@@ -77,8 +87,6 @@ export default function ModalCreateChannel() {
 
 window.addEventListener('click', function (e) {
   const nameChannel = document.getElementById('name-channel');
-  const PanelUsers = document.getElementsByClassName('PanelUsers')[0];
-  const inviteChannel = document.getElementById('invite-channel');
 
   if (e.target !== nameChannel && !!nameChannel) {
     let name = nameChannel.value;
@@ -87,8 +95,5 @@ window.addEventListener('click', function (e) {
       return e.length > 0;
     });
     nameChannel.value = nameArray.join('-');
-    if (e.target !== inviteChannel) {
-      PanelUsers.classList.remove('--searchActive');
-    }
   }
 });

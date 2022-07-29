@@ -12,7 +12,7 @@ export default function ModalScheduleMessage() {
 
   return (
     <div className="ModalScheduleMessage" id="modal-scheduleMessage">
-      <div className="ModalScheduleMessage__modal">
+      <div className="ModalScheduleMessage__modal animate__animated animate__zoomIn">
         <h2 className="ModalScheduleMessage__modal__title">Programa un nuvo mensaje</h2>
         <div className="ModalScheduleMessage__modal__content">
           <div className="ModalScheduleMessage__modal__content__program">

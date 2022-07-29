@@ -12,7 +12,7 @@ import MenuNotification from "../MenuNotification/MenuNotification";
 import MenuUsers from "../MenuUsers/MenuUsers";
 import { useMenu } from "../../hooks/useMenu";
 
-export default function Menu({ setCurrentChat, updateLastConversation }) {
+export default function Menu({ usersList, channelsList, setCurrentChat, updateLastConversation }) {
   const [menu, openMenu, closeMenu, openAccount, signOutUser] = useMenu();
   const { user } = useContext(AuthContext);
 
@@ -77,6 +77,7 @@ export default function Menu({ setCurrentChat, updateLastConversation }) {
         <div className="Menu__Content__panels">
           <MenuNotification />
           <MenuChannel
+            channelsList={channelsList}
             setCurrentChat={setCurrentChat}
             updateLastConversation={updateLastConversation}
           />
@@ -85,6 +86,7 @@ export default function Menu({ setCurrentChat, updateLastConversation }) {
             updateLastConversation={updateLastConversation}
           />
           <MenuUsers
+            usersList={usersList}
             setCurrentChat={setCurrentChat}
             updateLastConversation={updateLastConversation}
           />

@@ -10,7 +10,7 @@ export default function ModalLink() {
 
   return (
     <div className="ModalLink" id="modal-link">
-      <div className="ModalLink__modal">
+      <div className="ModalLink__modal animate__animated animate__zoomIn">
         <h2 className="ModalLink__modal__title">Agrega un nuevo vinculo</h2>
         <div className="ModalLink__modal__content">
           <div className="ModalLink__modal__content__text">

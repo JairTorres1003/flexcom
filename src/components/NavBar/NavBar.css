@@ -77,29 +77,6 @@
   background-color: rgb(217, 217, 217);
 }
 
-.NavBar__finder__input:focus~.NavBar__finder__button {
-  background-color: rgb(217, 217, 217);
-  color: #141E30;
-}
-
-.NavBar__finder__button {
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  color: rgba(20, 30, 48, 0.75);
-  height: 100%;
-  width: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.NavBar__finder>.NavBar__finder__button:hover,
-.NavBar__finder>.NavBar__finder__button:focus {
-  color: #141E30;
-  background-color: rgb(161, 161, 161);
-}
 
 .NavBar__usersChannel {
   height: 30px;

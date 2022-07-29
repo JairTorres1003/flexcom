@@ -5,7 +5,8 @@ import { BsEmojiSmile, BsTypeStrikethrough } from "react-icons/bs";
 import { MdScheduleSend, MdFormatListBulleted, MdFormatListNumbered } from "react-icons/md";
 import { VscBold, VscItalic } from "react-icons/vsc";
 import { GrUnderline } from "react-icons/gr";
-import Picker from "emoji-picker-react";
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 
 import "./TextEdit.css";
@@ -14,27 +15,15 @@ import { useTextEdit } from "../../hooks/useTextEdit";
 
 export default function TextEdit({ currentChat }) {
   const { modals } = useModals();
-  const [showPicker, setShowPicker] = useState({
-    show: false,
-    position: 0,
-    emojiObject: null
-  });
   const { textEdits } = useTextEdit({currentChat});
-
-  const onEmojiClick = (event, emojiObject) => {
-    setShowPicker(previusState => {
-      return {
-        ...previusState,
-        position: textEdits.getCaretCharacterOffsetWithin(document.getElementById("textEdit-divTextarea")),
-        emojiObject: emojiObject
-      };
-    })
-    textEdits.addEmoji(showPicker);
-  }
+  const [showEmoji, setShowEmoji] = useState(false);
 
   return (
     <div className="TextEdit">
-      {showPicker.show && <Picker onEmojiClick={onEmojiClick} preload={true} />}
+      {showEmoji ? <div className="emoji_picker"><Picker
+        data={data} 
+        onEmojiSelect={console.log} 
+      /></div> : null}
       <div className="TextEdit__container">
         <div className="TextEdit__container__files">
           <div className="TextEdit__container__files__file">
@@ -62,13 +51,7 @@ export default function TextEdit({ currentChat }) {
               <IoAtSharp className="icon_ToolsText" id="Icon_Tool-mention" />
             </button>
             <button className="TextEdit__container__tools__button" id="btnTool-emoji" onClick={() => {
-              setShowPicker(previusState => {
-                return {
-                  ...previusState,
-                  show: !previusState.show,
-                  position: textEdits.getCaretCharacterOffsetWithin(document.getElementById("textEdit-divTextarea"))
-                };
-              })
+              setShowEmoji(!showEmoji);
             }} onMouseOver={() => textEdits.handleMouseOver(4)} onMouseOut={textEdits.handleMouseOut}>
               <BsEmojiSmile className="icon_ToolsText" id="Icon_Tool-emoji" />
             </button>
